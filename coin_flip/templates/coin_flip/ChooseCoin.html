@@ -1,0 +1,28 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">Choose Whether To Reveal The Fair Coin Or Biased Coin</h2>
+    
+    <form method="post">
+        <div class="d-flex justify-content-center mb-3">
+            {% for choice, label in [('fair', 'Fair'), ('biased', 'Biased')] %}
+                <label class="btn btn-primary mx-2">
+                    <input type="radio" name="{{ form.coin_choice.name }}" value="{{ choice }}" required> {{ label }}
+                </label>
+            {% endfor %}
+        </div>
+        
+        {% if form.coin_choice.errors %}
+            <div class="alert alert-danger text-center">
+                {{ form.coin_choice.errors }}
+            </div>
+        {% endif %}
+        
+        <div class="d-flex justify-content-center">
+            {% next_button %}
+        </div>
+    </form>
+</div>
+{% endblock %}

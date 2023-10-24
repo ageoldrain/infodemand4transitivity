@@ -1,0 +1,12 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">Beginning Round {{ round_number }}</h2>
+    
+    <div class="d-flex justify-content-center">
+        {% next_button %}
+    </div>
+</div>
+{% endblock %}
