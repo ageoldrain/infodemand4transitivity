@@ -3,7 +3,7 @@ from otree.models.participant import Participant as oTreeParticipant
 import numpy as np
 
 doc = """
-Simple coin flip game
+An Experiment on Information Demand
 """
 
 debug = False
