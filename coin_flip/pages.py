@@ -2,8 +2,8 @@ from otree.api import Page, WaitPage
 from .models import C
 
 
-P_FAIR = .5
-P_BIASED = 1
+P_FAIR = 0.5
+P_BIASED = 0.8
 
 class Introduction(Page):
     """
