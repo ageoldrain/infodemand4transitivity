@@ -12,7 +12,7 @@ class Introduction(Page):
     def is_displayed(self):
         return self.round_number == 1
 
-class Introduction2(Page):
+class Instructions2(Page):
     """
     Second introduction page with instructions about the experiment. 
     """
