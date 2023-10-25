@@ -9,7 +9,7 @@ An Experiment on Information Demand
 debug = False
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Study on Curiosity and Demand for Information'
+    NAME_IN_URL = 'coin_flip'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 5
     # WINNINGS = cu(0)
