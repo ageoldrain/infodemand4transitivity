@@ -15,6 +15,7 @@ SESSION_CONFIGS = [
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=5.00, doc=""
 )
+# Payment and earnings strcuture
 
 PARTICIPANT_FIELDS = []
 SESSION_FIELDS = []
@@ -29,9 +30,9 @@ USE_POINTS = True
 
 ROOMS = [
     dict(
-        name='econ101',
-        display_name='Econ 101 class',
-        participant_label_file='_rooms/econ101.txt',
+        name='infodemand',
+        display_name='Experiment on Curiosity and Demand for Information',
+        participant_label_file='_rooms/infodemand.txt',
     ),
     dict(name='live_demo', display_name='Room for live demo (no participant labels)'),
 ]
