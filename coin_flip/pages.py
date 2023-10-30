@@ -19,6 +19,13 @@ class Introduction2(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+class Introduction3(Page):
+    """
+    Third introduction page with instructions about the experiment. 
+    """
+    def is_displayed(self):
+        return self.round_number == 1
+
 class RoundInfo(Page):
     """
     Page displaying round information
@@ -85,4 +92,4 @@ class Results(Page):
     def is_displayed(self):
         return self.round_number == C.NUM_ROUNDS
 
-page_sequence = [Introduction, Introduction2, RoundInfo, ChooseCoin, RevealCoinOutcome, ChoosePermutation, Results]
+page_sequence = [Introduction, Introduction2, Introduction3, RoundInfo, ChooseCoin, RevealCoinOutcome, ChoosePermutation, Results]
