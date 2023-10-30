@@ -1,1 +1,1 @@
-# coin-user-study
+# Curiosity and Demand for Information
