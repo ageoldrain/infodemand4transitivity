@@ -9,7 +9,7 @@ Curiosity and Information Demand
 debug = False
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Curiosity and Information Demand'
+    NAME_IN_URL = 'Curiosity'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 5
     # WINNINGS = cu(0)
