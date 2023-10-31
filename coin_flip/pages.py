@@ -53,6 +53,9 @@ class ChooseCoin(Page):
             'round_number': self.round_number
         }
 
+     def is_displayed(self):
+        return self.round_number <= C.NUM_ROUNDS
+
     def before_next_page(self):
         # Flip the chosen coin after the player makes a choice.
         self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED)
