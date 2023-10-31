@@ -32,6 +32,7 @@ class RoundInfo(Page):
     """
     Page displaying round information
     """
+    
     def vars_for_template(self):
         return {
             'round_number': self.round_number
@@ -46,6 +47,11 @@ class ChooseCoin(Page):
     """
     form_model = 'player'
     form_fields = ['coin_choice']
+
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number
+        }
 
     def before_next_page(self):
         # Flip the chosen coin after the player makes a choice.
