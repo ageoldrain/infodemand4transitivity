@@ -94,4 +94,4 @@ class Results(Page):
     def is_displayed(self):
         return self.round_number == C.NUM_ROUNDS
 
-page_sequence = [Introduction, Introduction1point5, Introduction2, Introduction3, RoundInfo, ChooseCoin, RevealCoinOutcome, ChoosePermutation, Results]
+page_sequence = [Introduction, Introduction1point5, Introduction2, RoundInfo, ChooseCoin, RevealCoinOutcome, ChoosePermutation, Results]
