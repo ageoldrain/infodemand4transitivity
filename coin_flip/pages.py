@@ -26,30 +26,6 @@ class Introduction2(Page):
     def is_displayed(self):
         return self.round_number == 1
 
-#class ChooseCoinPractice(Page):
-#    """
-#    Practice page where participant chooses between 'fair' and 'biased' coin.
-#    """
-#    form_model = 'player'
-#    form_fields = ['coin_choice']
-
-#    def vars_for_template(self):
-#        return {
-#            'practice_round_number': self.practice_round_number
-#        }
-
-#     def is_displayed(self):
-#        return self.practice_round_number <= C.PRACTICE_NUM_ROUNDS
-
- #   def before_next_page(self):
-#        # Flip the chosen coin after the player makes a choice.
- #       self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED)
-
- #   def is_displayed(self):
- #       return self.practice_round_number <= C.PRACTICE_NUM_ROUNDS
-
-
-
 
 class RoundInfo(Page):
     """
