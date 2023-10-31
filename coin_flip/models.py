@@ -3,13 +3,13 @@ from otree.models.participant import Participant as oTreeParticipant
 import numpy as np
 
 doc = """
-An Experiment on Information Demand
+Curiosity and Information Demand
 """
 
 debug = False
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Curiosity and Demand for Information'
+    NAME_IN_URL = 'Curiosity and Information Demand'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 5
     # WINNINGS = cu(0)
