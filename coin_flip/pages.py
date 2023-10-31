@@ -26,12 +26,7 @@ class Introduction2(Page):
     def is_displayed(self):
         return self.round_number == 1
 
-class Introduction3(Page):
-    """
-    Fourth introduction page with instructions about the experiment. 
-    """
-    def is_displayed(self):
-        return self.round_number == 1
+
 
 class RoundInfo(Page):
     """
