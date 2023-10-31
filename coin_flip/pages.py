@@ -52,7 +52,7 @@ class ChooseCoin(Page):
             'round_number': self.round_number
         }
 
-     def is_displayed(self):
+    def is_displayed(self):
         return self.round_number <= C.NUM_ROUNDS
 
     def before_next_page(self):
