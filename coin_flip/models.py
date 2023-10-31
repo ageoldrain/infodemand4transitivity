@@ -12,6 +12,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'Curiosity'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 5
+    NUM_PRACTICE_ROUNDS=2
     # WINNINGS = cu(0)
 
 # class Participant(oTreeParticipant):
