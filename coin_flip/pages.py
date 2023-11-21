@@ -47,6 +47,10 @@ class ChooseCoin(Page):
     form_model = 'player'
     form_fields = ['coin_choice']
 
+    return {
+            'round_number': self.round_number
+        }
+
     def vars_for_template(self):
         return {
             'round_number': self.round_number
@@ -58,9 +62,6 @@ class ChooseCoin(Page):
     def before_next_page(self):
         # Flip the chosen coin after the player makes a choice.
         self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED)
-
-    def is_displayed(self):
-        return self.round_number <= C.NUM_ROUNDS
 
 
 class RevealCoinOutcome(Page):
@@ -88,6 +89,7 @@ class ChoosePermutation(Page):
 
     def is_displayed(self):
         return self.round_number <= C.NUM_ROUNDS
+
 
 
 class Results(Page):
