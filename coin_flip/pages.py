@@ -47,9 +47,9 @@ class ChooseCoin(Page):
     form_model = 'player'
     form_fields = ['coin_choice']
 
-    return {
-            'round_number': self.round_number
-        }
+  #  return {
+  #          'round_number': self.round_number
+  #      }
 
     def vars_for_template(self):
         return {
@@ -70,7 +70,7 @@ class RevealCoinOutcome(Page):
     """
     def vars_for_template(self):
         return {
-            'chosen_coin_result': self.player.chosen_coin_result
+            'chosen_coin_result': self.player.chosen_coin_result, 'round_number': self.round_number
         }
     
     def is_displayed(self):
@@ -89,6 +89,11 @@ class ChoosePermutation(Page):
 
     def is_displayed(self):
         return self.round_number <= C.NUM_ROUNDS
+
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number
+        }
 
 
 
