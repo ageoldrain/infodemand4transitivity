@@ -3,7 +3,7 @@ from .models import C
 
 
 P_FAIR = 0.5
-P_BIASED = 0.9 # The probability of heads of the biased coin
+P_BIASED = 0.75 # The probability of heads of the biased coin
 
 class Introduction(Page):
     """
