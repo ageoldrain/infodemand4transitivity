@@ -1,4 +1,4 @@
-{% extends "global/Page.html" %}
+<!--{% extends "global/Page.html" %}
 {% load otree %}
 
 {% block content %}
@@ -26,4 +26,39 @@
         </div>
     </form>
 </div>
+{% endblock %}-->
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">This is round number {{ round_number }}. The outcome of which coin would you like to reveal?
+    </h2>
+
+    <form method="post">
+        <div class="d-flex justify-content-center mb-3">
+            <label class="btn btn-primary mx-2">
+                <input type="radio" name="{{ form.coin_choice.name }}" value="fair" style="display: none" required>
+                <img src="{% static 'path_to_fair_coin_image.png' %}" alt="Fair" style="max-width: 100px;">
+                <div>Fair</div>
+            </label>
+            <label class="btn btn-primary mx-2">
+                <input type="radio" name="{{ form.coin_choice.name }}" value="biased" style="display: none" required>
+                <img src="{% static 'path_to_biased_coin_image.png' %}" alt="Biased" style="max-width: 100px;">
+                <div>Biased</div>
+            </label>
+        </div>
+
+        {% if form.coin_choice.errors %}
+            <div class="alert alert-danger text-center">
+                {{ form.coin_choice.errors }}
+            </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-center">
+            {% next_button %}
+        </div>
+    </form>
+</div>
 {% endblock %}
+
