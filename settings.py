@@ -7,10 +7,7 @@ SESSION_CONFIGS = [
     ),
 ]
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+
 
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
