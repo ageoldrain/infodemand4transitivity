@@ -8,16 +8,18 @@
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
-            <label class="btn btn-primary mx-2">
-                <input type="radio" name="{{ form.coin_choice.name }}" value="fair" style="display: none" required>
-                <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Fair" style="max-width: 200px;">
-                <div>Fair</div>
-            </label>
-            <label class="btn btn-primary mx-2">
-                <input type="radio" name="{{ form.coin_choice.name }}" value="biased" style="display: none" required>
-                <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Biased" style="max-width: 200px;">
-                <div>Biased</div>
-            </label>
+            <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary mx-2">
+                    <input type="radio" name="{{ form.coin_choice.name }}" value="fair" style="display: none" required>
+                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Fair" style="max-width: 200px;">
+                    <div>Fair</div>
+                </label>
+                <label class="btn btn-primary mx-2">
+                    <input type="radio" name="{{ form.coin_choice.name }}" value="biased" style="display: none" required>
+                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Biased" style="max-width: 200px;">
+                    <div>Biased</div>
+                </label>
+            </div>
         </div>
 
         {% if form.coin_choice.errors %}
@@ -32,7 +34,8 @@
     </form>
 
     <div class="text-center my-3">
-        <a href="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/Instructions1point5.html" class="btn btn-info">View Instructions</a>
+        <a href="{% static 'coin_flip/Instructions1point5.html' %}" class="btn btn-info">View Instructions</a>
     </div>
 </div>
 {% endblock %}
+
