@@ -9,14 +9,14 @@
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
             <div class="btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-primary mx-2">
-                    <input type="radio" name="{{ form.coin_choice.name }}" value="fair" style="display: none" required>
-                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Fair" style="max-width: 200px;">
+                <label class="btn btn-primary mx-2 coin-label">
+                    <input type="radio" name="{{ form.coin_choice.name }}" value="fair" class="coin-input" required>
+                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Fair" class="coin-image">
                     <div>Fair</div>
                 </label>
-                <label class="btn btn-primary mx-2">
-                    <input type="radio" name="{{ form.coin_choice.name }}" value="biased" style="display: none" required>
-                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Biased" style="max-width: 200px;">
+                <label class="btn btn-primary mx-2 coin-label">
+                    <input type="radio" name="{{ form.coin_choice.name }}" value="biased" class="coin-input" required>
+                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Biased" class="coin-image">
                     <div>Biased</div>
                 </label>
             </div>
@@ -37,5 +37,37 @@
         <a href="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/Instructions1point5.html" class="btn btn-info">View Instructions</a>
     </div>
 </div>
-{% endblock %}
 
+<style>
+    .coin-label {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .coin-input {
+        display: none;
+    }
+    .coin-input:checked + .coin-image {
+        border: 4px solid gold;
+        border-radius: 10px;
+    }
+    .coin-label:hover .coin-image {
+        transform: scale(1.05);
+    }
+    .coin-image {
+        max-width: 200px;
+        transition: border 0.2s, transform 0.2s;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.coin-label').forEach(label => {
+        label.addEventListener('click', () => {
+            document.querySelectorAll('.coin-label').forEach(lbl => {
+                lbl.classList.remove('active');
+            });
+            label.classList.add('active');
+        });
+    });
+</script>
+
+{% endblock %}
