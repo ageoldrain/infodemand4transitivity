@@ -6,18 +6,25 @@
     <h2 class="text-center my-4">This is round number {{ round_number }}. The outcome of which coin would you like to reveal?
     </h2>
 
+    {% with fair_left=request.session.fair_left biased_left=request.session.biased_left %}
+    {% if fair_left <= biased_left %}
+        {% with coins=("fair", "biased") %}
+    {% else %}
+        {% with coins=("biased", "fair") %}
+    {% endif %}
+
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
             <div class="btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-primary mx-2 coin-label">
-                    <input type="radio" name="{{ form.coin_choice.name }}" value="fair" class="coin-input" required>
-                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Fair" class="coin-image">
-                    <div>Fair</div>
+                    <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.0 }}" class="coin-input" required>
+                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="{{ coins.0 }}" class="coin-image">
+                    <div>{{ coins.0|title }}</div>
                 </label>
                 <label class="btn btn-primary mx-2 coin-label">
-                    <input type="radio" name="{{ form.coin_choice.name }}" value="biased" class="coin-input" required>
-                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="Biased" class="coin-image">
-                    <div>Biased</div>
+                    <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.1 }}" class="coin-input" required>
+                    <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="{{ coins.1 }}" class="coin-image">
+                    <div>{{ coins.1|title }}</div>
                 </label>
             </div>
         </div>
@@ -70,4 +77,5 @@
     });
 </script>
 
+{% endwith %}
 {% endblock %}
