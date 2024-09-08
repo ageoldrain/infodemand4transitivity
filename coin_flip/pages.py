@@ -3,110 +3,46 @@ from .models import C
 
 
 P_FAIR = 0.5
-P_BIASED = 0.75 # The probability of heads of the biased coin
+P_BIASED = 0.75  # Probability of heads for biased coin
+P_VERY_BIASED = 0.95  # Probability of heads for very biased coin
 
 class Introduction(Page):
-    """
-    Introduction page providing some information about the game.
-    """
     def is_displayed(self):
         return self.round_number == 1
 
-class Introduction1point5(Page):
-    """
-    Second introduction page providing some information about the game.
-    """
-    def is_displayed(self):
-        return self.round_number == 1
-
-class Introduction2(Page):
-    """
-    Third introduction page with instructions about the experiment. 
-    """
-    def is_displayed(self):
-        return self.round_number == 1
-
-
-class RoundInfo(Page):
-    """
-    Page displaying round information
-    """
-    
-    def vars_for_template(self):
-        return {
-            'round_number': self.round_number
-        }
-    def is_displayed(self):
-        return self.round_number <= C.NUM_ROUNDS
-
-
-class ChooseCoin(Page):
-    """
-    Page where participant chooses between 'fair' and 'biased' coin.
-    """
+class ChooseFirstCoin(Page):
     form_model = 'player'
-    form_fields = ['coin_choice']
-
-  #  return {
-  #          'round_number': self.round_number
-  #      }
-
-    def vars_for_template(self):
-        return {
-            'round_number': self.round_number
-        }
-
-    def is_displayed(self):
-        return self.round_number <= C.NUM_ROUNDS
+    form_fields = ['first_coin_choice']
 
     def before_next_page(self):
-        # Flip the chosen coin after the player makes a choice.
-        self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED)
+        self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.first_coin_choice)
 
+class ChooseSecondCoin(Page):
+    form_model = 'player'
+    form_fields = ['second_coin_choice']
 
-class RevealCoinOutcome(Page):
-    """
-    Page revealing the outcome of the chosen coin.
-    """
-    def vars_for_template(self):
-        return {
-            'chosen_coin_result': self.player.chosen_coin_result, 'round_number': self.round_number
-        }
-    
-    def is_displayed(self):
-        return self.round_number <= C.NUM_ROUNDS
+    def before_next_page(self):
+        self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.second_coin_choice)
+
+class ChooseThirdCoin(Page):
+    form_model = 'player'
+    form_fields = ['third_coin_choice']
+
+    def before_next_page(self):
+        self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.third_coin_choice)
 
 class ChoosePermutation(Page):
-    """
-    Page where participant chooses between four options.
-    """
     form_model = 'player'
     form_fields = ['coin_permutation_choice']
 
-    def before_next_page(self):
-        # Flip the chosen coin after the player makes a choice.
-        self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED)
-
     def is_displayed(self):
         return self.round_number <= C.NUM_ROUNDS
 
-    def vars_for_template(self):
-        return {
-            'round_number': self.round_number
-        }
-
-
-
 class Results(Page):
-    """
-    Show overall results or feedback.
-    """
     def vars_for_template(self):
-        # Sum over all the winnings from each player (i.e. each round)
-        return {
-            'winnings': sum([player.total_winnings for player in self.player.in_all_rounds()])
-        }
+        return {'winnings': sum([player.total_winnings for player in self.player.in_all_rounds()])}
+
     def is_displayed(self):
         return self.round_number == C.NUM_ROUNDS
 
-page_sequence = [Introduction, Introduction1point5, Introduction2, ChooseCoin, RevealCoinOutcome, ChoosePermutation, Results]
+page_sequence = [Introduction, ChooseFirstCoin, ChooseSecondCoin, ChooseThirdCoin, ChoosePermutation, Results]
