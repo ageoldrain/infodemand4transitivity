@@ -7,11 +7,15 @@
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
-            <label class="btn btn-primary mx-2">
-                <input type="radio" name="{{ form.first_coin_choice.name }}" value="fair" required> Fair
+            <label class="btn btn-primary mx-2 coin-label">
+                <input type="radio" name="{{ form.first_coin_choice.name }}" value="fair" class="coin-input" required>
+                <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="fair" class="coin-image">
+                <div>Fair</div>
             </label>
-            <label class="btn btn-primary mx-2">
-                <input type="radio" name="{{ form.first_coin_choice.name }}" value="biased" required> Biased
+            <label class="btn btn-primary mx-2 coin-label">
+                <input type="radio" name="{{ form.first_coin_choice.name }}" value="biased" class="coin-input" required>
+                <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="biased" class="coin-image">
+                <div>Biased</div>
             </label>
         </div>
 
@@ -26,6 +30,7 @@
         </div>
     </form>
 
+    <!-- Review Instructions Accordion -->
     <div class="text-center my-3">
         <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#instructions">Review Instructions</button>
     </div>
