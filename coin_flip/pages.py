@@ -45,4 +45,12 @@ class Results(Page):
     def is_displayed(self):
         return self.round_number == C.NUM_ROUNDS
 
-page_sequence = [Introduction, ChooseFirstCoin, ChooseSecondCoin, ChooseThirdCoin, ChoosePermutation, Results]
+page_sequence = [
+    Introduction,
+    ChooseFirstCoin,
+    ChooseSecondCoin,
+    ChooseThirdCoin,
+    ChoosePermutation,
+    Results
+]
+
