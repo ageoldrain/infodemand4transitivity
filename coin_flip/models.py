@@ -6,9 +6,10 @@ Curiosity and Information Demand with Three Coins: Fair, Biased, and Very Biased
 """
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Economics Experiment'
-    PLAYERS_PER_GROUP = None  # No groups in this experiment
+    NAME_IN_URL = 'economics_experiment'  # No spaces or special characters
+    PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 10
+
 
 class Player(BasePlayer):
     # Your player fields
