@@ -13,7 +13,7 @@
         {% with coins=("biased", "fair") %}
     {% endif %}
 
-    <form method="post">
+ <form method="post">
         <div class="d-flex justify-content-center mb-3">
             <div class="btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-primary mx-2 coin-label">
@@ -33,7 +33,7 @@
             <div class="alert alert-danger text-center">
                 {{ form.coin_choice.errors }}
             </div>
-        {% endif %}
+        {% endif %}  
 
         <div class="d-flex justify-content-center">
             {% next_button %}
@@ -75,7 +75,36 @@
             label.classList.add('active');
         });
     });
+
+    document.querySelector('a.btn-info').addEventListener('click', (event) => {
+        // Prevent the default action if the form is valid
+        if (document.querySelector('form').checkValidity()) {
+            event.preventDefault();
+        }
+    });
 </script>
+
+<script>
+    // Add a flag to track if the form was interacted with
+    let formInteracted = false;
+
+    // Track form interaction
+    document.querySelectorAll('.coin-input').forEach(input => {
+        input.addEventListener('change', () => {
+            formInteracted = true;
+        });
+    });
+
+    // Prevent default action for instructions if form is interacted with
+    document.querySelector('a.btn-info').addEventListener('click', (event) => {
+        if (formInteracted) {
+            event.preventDefault();
+            alert('Please complete or reset your selection before viewing instructions.');
+        }
+    });
+</script>
+
+
 
 {% endwith %}
 {% endblock %}
