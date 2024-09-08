@@ -1,0 +1,47 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">This is round number {{ round_number }}. Would you like to choose the Biased or Very Biased coin?</h2>
+
+    <form method="post">
+        <div class="d-flex justify-content-center mb-3">
+            <label class="btn btn-primary mx-2">
+                <input type="radio" name="{{ form.second_coin_choice.name }}" value="biased" required> Biased
+            </label>
+            <label class="btn btn-primary mx-2">
+                <input type="radio" name="{{ form.second_coin_choice.name }}" value="very biased" required> Very Biased
+            </label>
+        </div>
+
+        {% if form.second_coin_choice.errors %}
+            <div class="alert alert-danger text-center">
+                {{ form.second_coin_choice.errors }}
+            </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-center">
+            {% next_button %}
+        </div>
+    </form>
+
+    <div class="text-center my-3">
+        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#instructions">Review Instructions</button>
+    </div>
+
+    <div id="instructions" class="collapse">
+        <div class="card card-body">
+            <p>In this stage, you are choosing between the biased and very biased coins.</p>
+            <p>The Biased coin has a probability of 0.75 heads, while the Very Biased coin has a probability of 0.95 heads.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Accordion toggle for instructions
+    document.querySelector('.btn-info').addEventListener('click', () => {
+        document.getElementById('instructions').classList.toggle('show');
+    });
+</script>
+{% endblock %}
