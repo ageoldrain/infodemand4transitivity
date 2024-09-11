@@ -23,6 +23,13 @@ class ChooseFirstCoin(Page):
     def before_next_page(self):
         self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.first_coin_choice)
 
+class RevealFirstCoinOutcome(Page):
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number,
+            'chosen_coin_result': self.player.chosen_coin_result  # Result of the first coin flip
+        }
+
 
 
 
@@ -38,6 +45,15 @@ class ChooseSecondCoin(Page):
     def before_next_page(self):
         self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.second_coin_choice)
 
+class RevealSecondCoinOutcome(Page):
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number,
+            'chosen_coin_result': self.player.chosen_coin_result  # Result of the second coin flip
+        }
+}
+
+
 class ChooseThirdCoin(Page):
     form_model = 'player'
     form_fields = ['third_coin_choice']
@@ -49,6 +65,14 @@ class ChooseThirdCoin(Page):
 
     def before_next_page(self):
         self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.third_coin_choice)
+
+class RevealThirdCoinOutcome(Page):
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number,
+            'chosen_coin_result': self.player.chosen_coin_result  # Result of the third coin flip
+        }
+
 
 
 class ChoosePermutation(Page):
@@ -74,9 +98,13 @@ class Results(Page):
 page_sequence = [
     Introduction,
     ChooseFirstCoin,
+    RevealFirstCoinOutcome,  # Show the outcome after first coin choice
     ChooseSecondCoin,
+    RevealSecondCoinOutcome,  # Show the outcome after second coin choice
     ChooseThirdCoin,
+    RevealThirdCoinOutcome,  # Show the outcome after third coin choice
     ChoosePermutation,
     Results
 ]
+
 
