@@ -55,8 +55,14 @@ class ChoosePermutation(Page):
     form_model = 'player'
     form_fields = ['coin_permutation_choice']
 
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number  # Pass round_number to the template
+        }
+
     def is_displayed(self):
         return self.round_number <= C.NUM_ROUNDS
+
 
 class Results(Page):
     def vars_for_template(self):
