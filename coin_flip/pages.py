@@ -42,8 +42,14 @@ class ChooseThirdCoin(Page):
     form_model = 'player'
     form_fields = ['third_coin_choice']
 
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number  # Pass round_number to the template
+        }
+
     def before_next_page(self):
         self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.third_coin_choice)
+
 
 class ChoosePermutation(Page):
     form_model = 'player'
