@@ -38,6 +38,11 @@ class GuessFairBiasedOutcome(Page):
     form_model = 'player'
     form_fields = []  # Handle the fields manually
 
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number  # Pass the round number to the template
+        }
+
     def before_next_page(self):
         # Combine fair and biased coin outcomes into coin_permutation_choice
         fair_outcome = self._get_outcome('fair_outcome')
@@ -46,6 +51,7 @@ class GuessFairBiasedOutcome(Page):
 
     def _get_outcome(self, field):
         return self.request.POST.get(field)
+
 
 class ChooseBiasedOrVeryBiased(Page):
     form_model = 'player'
@@ -74,6 +80,11 @@ class RevealBiasedOrVeryBiasedOutcome(Page):
 class GuessBiasedVeryBiasedOutcome(Page):
     form_model = 'player'
     form_fields = []  # Handle the fields manually
+
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number  # Pass the round number to the template
+        }
 
     def before_next_page(self):
         # Combine biased and very biased coin outcomes into coin_permutation_choice
@@ -112,6 +123,11 @@ class GuessFairVeryBiasedOutcome(Page):
     form_model = 'player'
     form_fields = []  # Handle the fields manually
 
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number  # Pass the round number to the template
+        }
+
     def before_next_page(self):
         # Combine fair and very biased coin outcomes into coin_permutation_choice
         fair_outcome = self._get_outcome('fair_outcome')
@@ -120,6 +136,7 @@ class GuessFairVeryBiasedOutcome(Page):
 
     def _get_outcome(self, field):
         return self.request.POST.get(field)
+
 
 class Results(Page):
     def vars_for_template(self):
