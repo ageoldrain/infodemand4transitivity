@@ -25,5 +25,17 @@
             {% next_button %}
         </div>
     </form>
+
+    <!-- Review Instructions Accordion -->
+    <div class="text-center my-3">
+        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#instructions">Review Instructions</button>
+    </div>
+
+    <div id="instructions" class="collapse">
+        <div class="card card-body">
+            <p>You are choosing between the Biased and Very Biased coins.</p>
+            <p>The Biased coin has a probability of 0.75 heads, while the Very Biased coin has a probability of 0.95 heads.</p>
+        </div>
+    </div>
 </div>
 {% endblock %}
