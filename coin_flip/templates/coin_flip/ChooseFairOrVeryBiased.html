@@ -3,15 +3,15 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">This is round number {{ round_number }}. Would you like to choose the Fair or Very Biased coin?</h2>
+    <h2 class="text-center my-4">This is round number {{ round_number }}. Would you like to choose the {{ coins.0.1 }} or {{ coins.1.1 }} coin?</h2>
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
             <label class="btn btn-primary mx-2">
-                <input type="radio" name="{{ form.third_coin_choice.name }}" value="fair" required> Fair
+                <input type="radio" name="{{ form.third_coin_choice.name }}" value="{{ coins.0.0 }}" required> {{ coins.0.1 }}
             </label>
             <label class="btn btn-primary mx-2">
-                <input type="radio" name="{{ form.third_coin_choice.name }}" value="very biased" required> Very Biased
+                <input type="radio" name="{{ form.third_coin_choice.name }}" value="{{ coins.1.0 }}" required> {{ coins.1.1 }}
             </label>
         </div>
 
