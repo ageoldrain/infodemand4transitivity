@@ -10,6 +10,21 @@ class Introduction(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+class Introduction1point5(Page):
+    """
+    Second introduction page providing some information about the game.
+    """
+    def is_displayed(self):
+        return self.round_number == 1
+
+class Introduction2(Page):
+    """
+    Third introduction page with instructions about the experiment. 
+    """
+    def is_displayed(self):
+        return self.round_number == 1
+
+
 class ChooseFairOrBiased(Page):
     form_model = 'player'
     form_fields = ['first_coin_choice']
@@ -128,7 +143,8 @@ class Results(Page):
 # Update the sequence
 page_sequence = [
     Introduction,
-    Instructions,
+    Instructions1point5,
+    Instructions2,
     ChooseFairOrBiased,
     RevealFairOrBiasedOutcome,
     GuessFairBiasedOutcome,
