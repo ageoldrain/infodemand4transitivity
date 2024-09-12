@@ -128,6 +128,7 @@ class Results(Page):
 # Update the sequence
 page_sequence = [
     Introduction,
+    Instructions,
     ChooseFairOrBiased,
     RevealFairOrBiasedOutcome,
     GuessFairBiasedOutcome,
