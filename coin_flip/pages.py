@@ -12,15 +12,15 @@ class Introduction(Page):
 
 class ChooseFairOrBiased(Page):
     form_model = 'player'
-    form_fields = ['first_coin_choice']  # This field is already defined
+    form_fields = ['first_coin_choice']
 
     def vars_for_template(self):
         # Randomize coin positions
         coins = [('fair', 'Fair'), ('biased', 'Biased')]
-        random.shuffle(coins)  # Randomly shuffle the list
+        random.shuffle(coins)
         return {
             'round_number': self.round_number,
-            'coins': coins  # Pass the randomized coins to the template
+            'coins': coins
         }
 
     def before_next_page(self):
@@ -33,14 +33,19 @@ class RevealFairOrBiasedOutcome(Page):
             'chosen_coin_result': self.player.chosen_coin_result
         }
 
+# This method will combine individual outcomes into a single "coin_permutation_choice"
 class GuessFairBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = ['coin_permutation_choice']  # You already have this field
+    form_fields = []  # Handle the fields manually
 
-    def vars_for_template(self):
-        return {
-            'round_number': self.round_number
-        }
+    def before_next_page(self):
+        # Combine fair and biased coin outcomes into coin_permutation_choice
+        fair_outcome = self._get_outcome('fair_outcome')
+        biased_outcome = self._get_outcome('biased_outcome')
+        self.player.coin_permutation_choice = f"{fair_outcome}{biased_outcome}"
+
+    def _get_outcome(self, field):
+        return self.request.POST.get(field)
 
 class ChooseBiasedOrVeryBiased(Page):
     form_model = 'player'
@@ -49,10 +54,10 @@ class ChooseBiasedOrVeryBiased(Page):
     def vars_for_template(self):
         # Randomize coin positions
         coins = [('biased', 'Biased'), ('very biased', 'Very Biased')]
-        random.shuffle(coins)  # Randomly shuffle the list
+        random.shuffle(coins)
         return {
             'round_number': self.round_number,
-            'coins': coins  # Pass the randomized coins to the template
+            'coins': coins
         }
 
     def before_next_page(self):
@@ -65,14 +70,19 @@ class RevealBiasedOrVeryBiasedOutcome(Page):
             'chosen_coin_result': self.player.chosen_coin_result
         }
 
+# This method will combine individual outcomes into a single "coin_permutation_choice"
 class GuessBiasedVeryBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = ['coin_permutation_choice']
+    form_fields = []  # Handle the fields manually
 
-    def vars_for_template(self):
-        return {
-            'round_number': self.round_number
-        }
+    def before_next_page(self):
+        # Combine biased and very biased coin outcomes into coin_permutation_choice
+        biased_outcome = self._get_outcome('biased_outcome')
+        very_biased_outcome = self._get_outcome('very_biased_outcome')
+        self.player.coin_permutation_choice = f"{biased_outcome}{very_biased_outcome}"
+
+    def _get_outcome(self, field):
+        return self.request.POST.get(field)
 
 class ChooseFairOrVeryBiased(Page):
     form_model = 'player'
@@ -81,10 +91,10 @@ class ChooseFairOrVeryBiased(Page):
     def vars_for_template(self):
         # Randomize coin positions
         coins = [('fair', 'Fair'), ('very biased', 'Very Biased')]
-        random.shuffle(coins)  # Randomly shuffle the list
+        random.shuffle(coins)
         return {
             'round_number': self.round_number,
-            'coins': coins  # Pass the randomized coins to the template
+            'coins': coins
         }
 
     def before_next_page(self):
@@ -97,14 +107,19 @@ class RevealFairOrVeryBiasedOutcome(Page):
             'chosen_coin_result': self.player.chosen_coin_result
         }
 
+# This method will combine individual outcomes into a single "coin_permutation_choice"
 class GuessFairVeryBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = ['coin_permutation_choice']
+    form_fields = []  # Handle the fields manually
 
-    def vars_for_template(self):
-        return {
-            'round_number': self.round_number
-        }
+    def before_next_page(self):
+        # Combine fair and very biased coin outcomes into coin_permutation_choice
+        fair_outcome = self._get_outcome('fair_outcome')
+        very_biased_outcome = self._get_outcome('very_biased_outcome')
+        self.player.coin_permutation_choice = f"{fair_outcome}{very_biased_outcome}"
+
+    def _get_outcome(self, field):
+        return self.request.POST.get(field)
 
 class Results(Page):
     def vars_for_template(self):
