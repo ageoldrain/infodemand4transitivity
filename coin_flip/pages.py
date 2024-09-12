@@ -33,29 +33,18 @@ class RevealFairOrBiasedOutcome(Page):
             'chosen_coin_result': self.player.chosen_coin_result
         }
 
-# This method will combine individual outcomes into a single "coin_permutation_choice"
 class GuessFairBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = []  # Handle the fields manually
+    form_fields = ['fair_outcome', 'biased_outcome']  # Collect outcomes manually
 
-    def before_next_page(self):
-        # Combine fair and biased coin outcomes into coin_permutation_choice
-        fair_outcome = self._get_outcome('fair_outcome')
-        biased_outcome = self._get_outcome('biased_outcome')
-        self.player.coin_permutation_choice = f"{fair_outcome}{biased_outcome}"
-
-    def _get_outcome(self, field):
-        return getattr(self.player, field)
-
-def vars_for_template(self):
+    def vars_for_template(self):
         return {
-            'round_number': self.round_number  # Pass the round_number to the template
+            'round_number': self.round_number
         }
 
     def before_next_page(self):
         # Combine fair and biased coin outcomes into coin_permutation_choice
         self.player.coin_permutation_choice = f"{self.player.fair_outcome}{self.player.biased_outcome}"
-
 
 class ChooseBiasedOrVeryBiased(Page):
     form_model = 'player'
@@ -80,19 +69,18 @@ class RevealBiasedOrVeryBiasedOutcome(Page):
             'chosen_coin_result': self.player.chosen_coin_result
         }
 
-# This method will combine individual outcomes into a single "coin_permutation_choice"
 class GuessBiasedVeryBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = []  # Handle the fields manually
+    form_fields = ['biased_outcome', 'very_biased_outcome']  # Collect outcomes manually
+
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number
+        }
 
     def before_next_page(self):
         # Combine biased and very biased coin outcomes into coin_permutation_choice
-        biased_outcome = self._get_outcome('biased_outcome')
-        very_biased_outcome = self._get_outcome('very_biased_outcome')
-        self.player.coin_permutation_choice = f"{biased_outcome}{very_biased_outcome}"
-
-    def _get_outcome(self, field):
-        return getattr(self.player, field)
+        self.player.coin_permutation_choice = f"{self.player.biased_outcome}{self.player.very_biased_outcome}"
 
 class ChooseFairOrVeryBiased(Page):
     form_model = 'player'
@@ -117,20 +105,18 @@ class RevealFairOrVeryBiasedOutcome(Page):
             'chosen_coin_result': self.player.chosen_coin_result
         }
 
-# This method will combine individual outcomes into a single "coin_permutation_choice"
 class GuessFairVeryBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = []  # Handle the fields manually
+    form_fields = ['fair_outcome', 'very_biased_outcome']  # Collect outcomes manually
+
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number
+        }
 
     def before_next_page(self):
         # Combine fair and very biased coin outcomes into coin_permutation_choice
-        fair_outcome = self._get_outcome('fair_outcome')
-        very_biased_outcome = self._get_outcome('very_biased_outcome')
-        self.player.coin_permutation_choice = f"{fair_outcome}{very_biased_outcome}"
-
-    def _get_outcome(self, field):
-        return getattr(self.player, field)
-
+        self.player.coin_permutation_choice = f"{self.player.fair_outcome}{self.player.very_biased_outcome}"
 
 class Results(Page):
     def vars_for_template(self):
@@ -138,7 +124,6 @@ class Results(Page):
 
     def is_displayed(self):
         return self.round_number == C.NUM_ROUNDS
-
 
 # Update the sequence
 page_sequence = [
