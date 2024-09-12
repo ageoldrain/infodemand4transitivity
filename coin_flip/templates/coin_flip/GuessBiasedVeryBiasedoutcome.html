@@ -27,6 +27,20 @@
             </div>
         </div>
 
-        {% if form.coin_permutation_choice.errors %}
+        {% if biased_outcome.errors %}
             <div class="alert alert-danger text-center">
-                {{ form.coin_permutation_choice.errors
+                {{ biased_outcome.errors }}
+            </div>
+        {% endif %}
+        {% if very_biased_outcome.errors %}
+            <div class="alert alert-danger text-center">
+                {{ very_biased_outcome.errors }}
+            </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-center">
+            {% next_button %}
+        </div>
+    </form>
+</div>
+{% endblock %}
