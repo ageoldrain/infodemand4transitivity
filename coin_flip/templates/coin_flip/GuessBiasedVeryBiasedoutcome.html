@@ -3,28 +3,30 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">This is round number {{ round_number }}. Please guess the outcome of both the Biased and Very Biased coins:</h2>
-    <h5 class="text-center my-4">Please use the following convention: the outcome (H or T) of the Biased coin comes first, and the outcome of the Very Biased coin comes second.</h5>
-    <h5 class="text-center my-4">For example, if you think the Biased coin came up "heads" and the Very Biased coin came up "tails," you would choose "HT."</h5>
+    <h2 class="text-center my-4">This is round number {{ round_number }}. Please guess the outcome of the Biased and Very Biased coins:</h2>
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
-            {% for choice in ['HH', 'TT', 'HT', 'TH'] %}
+            <div class="mx-4 text-center">
+                <h5>Outcome of the Biased Coin</h5>
                 <label class="btn btn-primary mx-2">
-                    <input type="radio" name="{{ form.coin_permutation_choice.name }}" value="{{ choice }}" required> {{ choice }}
+                    <input type="radio" name="biased_outcome" value="H" required> Heads
                 </label>
-            {% endfor %}
+                <label class="btn btn-primary mx-2">
+                    <input type="radio" name="biased_outcome" value="T" required> Tails
+                </label>
+            </div>
+            <div class="mx-4 text-center">
+                <h5>Outcome of the Very Biased Coin</h5>
+                <label class="btn btn-primary mx-2">
+                    <input type="radio" name="very_biased_outcome" value="H" required> Heads
+                </label>
+                <label class="btn btn-primary mx-2">
+                    <input type="radio" name="very_biased_outcome" value="T" required> Tails
+                </label>
+            </div>
         </div>
-        
+
         {% if form.coin_permutation_choice.errors %}
             <div class="alert alert-danger text-center">
-                {{ form.coin_permutation_choice.errors }}
-            </div>
-        {% endif %}
-
-        <div class="d-flex justify-content-center">
-            {% next_button %}
-        </div>
-    </form>
-</div>
-{% endblock %}
+                {{ form.coin_permutation_choice.errors
