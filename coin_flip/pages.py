@@ -1,6 +1,6 @@
 from otree.api import Page, WaitPage
 from .models import C
-
+import random
 
 P_FAIR = 0.5
 P_BIASED = 0.75  # Probability of heads for biased coin
@@ -15,8 +15,12 @@ class ChooseFairOrBiased(Page):
     form_fields = ['first_coin_choice']  # This field is already defined
 
     def vars_for_template(self):
+        # Randomize coin positions
+        coins = [('fair', 'Fair'), ('biased', 'Biased')]
+        random.shuffle(coins)  # Randomly shuffle the list
         return {
-            'round_number': self.round_number  # Pass round_number to the template
+            'round_number': self.round_number,
+            'coins': coins  # Pass the randomized coins to the template
         }
 
     def before_next_page(self):
@@ -43,8 +47,12 @@ class ChooseBiasedOrVeryBiased(Page):
     form_fields = ['second_coin_choice']
 
     def vars_for_template(self):
+        # Randomize coin positions
+        coins = [('biased', 'Biased'), ('very biased', 'Very Biased')]
+        random.shuffle(coins)  # Randomly shuffle the list
         return {
-            'round_number': self.round_number
+            'round_number': self.round_number,
+            'coins': coins  # Pass the randomized coins to the template
         }
 
     def before_next_page(self):
@@ -71,8 +79,12 @@ class ChooseFairOrVeryBiased(Page):
     form_fields = ['third_coin_choice']
 
     def vars_for_template(self):
+        # Randomize coin positions
+        coins = [('fair', 'Fair'), ('very biased', 'Very Biased')]
+        random.shuffle(coins)  # Randomly shuffle the list
         return {
-            'round_number': self.round_number
+            'round_number': self.round_number,
+            'coins': coins  # Pass the randomized coins to the template
         }
 
     def before_next_page(self):
@@ -102,7 +114,6 @@ class Results(Page):
         return self.round_number == C.NUM_ROUNDS
 
 
-
 # Update the sequence
 page_sequence = [
     Introduction,
@@ -117,7 +128,3 @@ page_sequence = [
     GuessFairVeryBiasedOutcome,
     Results
 ]
-
-
-
-
