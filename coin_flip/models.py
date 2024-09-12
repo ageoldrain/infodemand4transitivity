@@ -6,16 +6,23 @@ Curiosity and Information Demand with Three Coins: Fair, Biased, and Very Biased
 """
 
 class C(BaseConstants):
-    NAME_IN_URL = 'economics_experiment'  # No spaces or special characters
+    NAME_IN_URL = 'economics_experiment'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 10
 
 
 class Player(BasePlayer):
-    # Your player fields
+    # Player's coin choices
     first_coin_choice = models.StringField(choices=['fair', 'biased'])
     second_coin_choice = models.StringField(choices=['biased', 'very biased'])
     third_coin_choice = models.StringField(choices=['fair', 'very biased'])
+
+    # Player's guessed outcomes for each coin
+    fair_outcome = models.StringField(choices=['H', 'T'], initial='', blank=True)
+    biased_outcome = models.StringField(choices=['H', 'T'], initial='', blank=True)
+    very_biased_outcome = models.StringField(choices=['H', 'T'], initial='', blank=True)
+
+    # Combined outcome choice and other fields
     coin_permutation_choice = models.StringField(choices=['HH', 'TT', 'HT', 'TH'], initial='')
     chosen_coin_result = models.StringField(initial='')
     chosen_coin_permutation = models.StringField(initial='')
@@ -38,7 +45,7 @@ class Player(BasePlayer):
         if self.coin_permutation_choice == self.coin_permutation_result:
             self.total_winnings += cu(1)
 
-class Group(BaseGroup):  # Add this empty Group class
+class Group(BaseGroup):
     pass
 
 class Subsession(BaseSubsession):
