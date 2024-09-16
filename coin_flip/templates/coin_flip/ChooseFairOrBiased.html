@@ -11,12 +11,12 @@
             <label class="btn btn-primary mx-2 coin-label">
                 <input type="radio" name="{{ form.first_coin_choice.name }}" value="{{ coins.0.0 }}" class="coin-input" required>
                 <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="{{ coins.0.1 }}" class="coin-image">
-                <div>{{ coins.0.1 }}</div>
+                <div>{{ coins.0.0 }}</div>
             </label>
             <label class="btn btn-primary mx-2 coin-label">
                 <input type="radio" name="{{ form.first_coin_choice.name }}" value="{{ coins.1.0 }}" class="coin-input" required>
                 <img src="https://github.com/ageoldrain/infodemand1/blob/main/coin_flip/templates/coin_flip/CoinImage.png?raw=true" alt="{{ coins.1.1 }}" class="coin-image">
-                <div>{{ coins.1.1 }}</div>
+                <div>{{ coins.1.0 }}</div>
             </label>
         </div>
 
@@ -47,7 +47,7 @@
         </p>
 
             <p>You are now asked to choose to reveal the outcome of either  {{ coins.0.1 }} or the {{ coins.1.1 }} coin.</p>
-            <p>The {{ coins.0.1 }} coin has a probability of 0.5 heads, while the {{ coins.1.1 }} coin has a higher probability of heads.</p>
+            <p>The {{ coins.0.0 }} coin has a probability of 0.5 heads, while the {{ coins.1.0 }} coin has a higher probability of heads.</p>
 
 
         <p>
