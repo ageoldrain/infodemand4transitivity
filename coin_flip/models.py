@@ -29,6 +29,11 @@ class Player(BasePlayer):
     coin_permutation_result = models.StringField(initial='')
     total_winnings = models.CurrencyField(initial=cu(0))
 
+    # New fields to store coin positions (left or right)
+    first_coin_position = models.StringField()  # Stores 'left' or 'right' for the first choice
+    second_coin_position = models.StringField()  # Stores 'left' or 'right' for the second choice
+    third_coin_position = models.StringField()  # Stores 'left' or 'right' for the third choice
+
     def flip_chosen_coin(self, p_fair: float, p_biased: float, p_very_biased: float, chosen_coin: str):
         assert 0 <= p_fair <= 1, "Probability for the fair coin must be between 0 and 1."
         assert 0 <= p_biased <= 1, "Probability for the biased coin must be between 0 and 1."
