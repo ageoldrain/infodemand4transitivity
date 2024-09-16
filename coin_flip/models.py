@@ -48,7 +48,7 @@ class Player(BasePlayer):
         
         # Add permutation logic and winnings as needed
         if self.coin_permutation_choice == self.coin_permutation_result:
-            self.total_winnings += cu(1)
+            self.total_winnings += cu(2)
 
 class Group(BaseGroup):
     pass
