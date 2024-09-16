@@ -3,9 +3,9 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">This is round number {{ round_number }}. The outcome for this round is:</h2>
+    <h2 class="text-center my-4">This is round number {{ round_number }}.</h2>
     
-    <p class="text-center mb-4">The result of your chosen coin  is: <strong>{{ chosen_coin_result }}</strong></p>
+    <p class="text-center mb-4">You chose to reveal the {{ form.first_coin_choice.name }}) coin. The result is <strong>{{ chosen_coin_result }}</strong></p>
     
     <div class="d-flex justify-content-center">
         {% next_button %}
