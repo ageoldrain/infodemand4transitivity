@@ -41,7 +41,27 @@
             <p>Each subround has two questions. First, you will be given the option to <b>find out the outcome of one of the two coins</b>. Once you choose the coin, the outcome will be revealed to you on the next page. After that, you will be asked to guess the outcome of <b>both</b> coins.</p>
 
             <p>You are now asked to choose to reveal the outcome of either the {{ coins.0.1 }} coin or the {{ coins.1.1 }} coin.</p>
-            <p>The {{ coins.0.1 }} coin has a probability of {{ p_biased }} heads, while the {{ coins.1.1 }} coin has a probability of {{ p_very_biased }} heads.</p>
+
+            <!-- Dynamically show the correct probability for each coin -->
+            <p>
+                The {{ coins.0.1 }} coin has a probability of 
+                {% if coins.0.0 == 'biased' %}
+                    {{ p_biased }}
+                {% elif coins.0.0 == 'very biased' %}
+                    {{ p_very_biased }}
+                {% endif %}
+                heads.
+            </p>
+
+            <p>
+                The {{ coins.1.1 }} coin has a probability of 
+                {% if coins.1.0 == 'biased' %}
+                    {{ p_biased }}
+                {% elif coins.1.0 == 'very biased' %}
+                    {{ p_very_biased }}
+                {% endif %}
+                heads.
+            </p>
 
             <p>If you guess correctly, you will receive the sum of $2. If not, you will receive $0. Your winnings will be revealed only at the end of the 10 rounds.</p>
 
