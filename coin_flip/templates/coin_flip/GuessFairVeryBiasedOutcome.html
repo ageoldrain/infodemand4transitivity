@@ -7,24 +7,18 @@
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
-            <div class="mx-4 text-center">
-                <h5>Outcome of the Fair Coin</h5>
-                <label class="btn btn-primary mx-2">
-                    <input type="radio" name="fair_outcome" value="H" required> Heads
-                </label>
-                <label class="btn btn-primary mx-2">
-                    <input type="radio" name="fair_outcome" value="T" required> Tails
-                </label>
-            </div>
-            <div class="mx-4 text-center">
-                <h5>Outcome of the Very Biased Coin</h5>
-                <label class="btn btn-primary mx-2">
-                    <input type="radio" name="very_biased_outcome" value="H" required> Heads
-                </label>
-                <label class="btn btn-primary mx-2">
-                    <input type="radio" name="very_biased_outcome" value="T" required> Tails
-                </label>
-            </div>
+            <!-- Loop over the coin order and show the correct labels and fields -->
+            {% for coin in coins %}
+                <div class="mx-4 text-center">
+                    <h5>Outcome of the {{ coin.1 }} Coin</h5>
+                    <label class="btn btn-primary mx-2">
+                        <input type="radio" name="{{ coin.0 }}_outcome" value="H" required> Heads
+                    </label>
+                    <label class="btn btn-primary mx-2">
+                        <input type="radio" name="{{ coin.0 }}_outcome" value="T" required> Tails
+                    </label>
+                </div>
+            {% endfor %}
         </div>
 
         <div class="d-flex justify-content-center">
