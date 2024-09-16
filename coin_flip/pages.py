@@ -35,7 +35,9 @@ class ChooseFairOrBiased(Page):
         random.shuffle(coins)
         return {
             'round_number': self.round_number,
-            'coins': coins
+            'coins': coins,
+            'p_fair': P_FAIR,  # Pass the fair coin probability
+            'p_biased': P_BIASED  # Pass the biased coin probability
         }
 
     def before_next_page(self):
@@ -71,7 +73,9 @@ class ChooseBiasedOrVeryBiased(Page):
         random.shuffle(coins)
         return {
             'round_number': self.round_number,
-            'coins': coins
+            'coins': coins,
+            'p_biased': P_BIASED,  # Pass the biased coin probability
+            'p_very_biased': P_VERY_BIASED  # Pass the very biased coin probability
         }
 
     def before_next_page(self):
@@ -107,7 +111,9 @@ class ChooseFairOrVeryBiased(Page):
         random.shuffle(coins)
         return {
             'round_number': self.round_number,
-            'coins': coins
+            'coins': coins,
+            'p_fair': P_FAIR,  # Pass the fair coin probability
+            'p_very_biased': P_VERY_BIASED  # Pass the very biased coin probability
         }
 
     def before_next_page(self):
@@ -156,3 +162,4 @@ page_sequence = [
     GuessFairVeryBiasedOutcome,
     Results
 ]
+
