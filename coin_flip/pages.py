@@ -11,19 +11,12 @@ class Introduction(Page):
         return self.round_number == 1
 
 class Introduction1point5(Page):
-    """
-    Second introduction page providing some information about the game.
-    """
     def is_displayed(self):
         return self.round_number == 1
 
 class Introduction2(Page):
-    """
-    Third introduction page with instructions about the experiment. 
-    """
     def is_displayed(self):
         return self.round_number == 1
-
 
 class ChooseFairOrBiased(Page):
     form_model = 'player'
@@ -33,11 +26,13 @@ class ChooseFairOrBiased(Page):
         # Randomize coin positions
         coins = [('fair', 'Fair'), ('biased', 'Biased')]
         random.shuffle(coins)
+        # Store coin order in session vars to align with the next page
+        self.session.vars['fair_or_biased_order'] = coins
         return {
             'round_number': self.round_number,
             'coins': coins,
-            'p_fair': P_FAIR,  # Pass the fair coin probability
-            'p_biased': P_BIASED  # Pass the biased coin probability
+            'p_fair': P_FAIR,
+            'p_biased': P_BIASED
         }
 
     def before_next_page(self):
@@ -52,15 +47,17 @@ class RevealFairOrBiasedOutcome(Page):
 
 class GuessFairBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = ['fair_outcome', 'biased_outcome']  # Collect outcomes manually
+    form_fields = ['fair_outcome', 'biased_outcome']
 
     def vars_for_template(self):
+        # Retrieve the coin order from the previous choice page
+        coins = self.session.vars['fair_or_biased_order']
         return {
-            'round_number': self.round_number
+            'round_number': self.round_number,
+            'coins': coins
         }
 
     def before_next_page(self):
-        # Combine fair and biased coin outcomes into coin_permutation_choice
         self.player.coin_permutation_choice = f"{self.player.fair_outcome}{self.player.biased_outcome}"
 
 class ChooseBiasedOrVeryBiased(Page):
@@ -71,11 +68,13 @@ class ChooseBiasedOrVeryBiased(Page):
         # Randomize coin positions
         coins = [('biased', 'Biased'), ('very biased', 'Very Biased')]
         random.shuffle(coins)
+        # Store coin order in session vars to align with the next page
+        self.session.vars['biased_or_very_biased_order'] = coins
         return {
             'round_number': self.round_number,
             'coins': coins,
-            'p_biased': P_BIASED,  # Pass the biased coin probability
-            'p_very_biased': P_VERY_BIASED  # Pass the very biased coin probability
+            'p_biased': P_BIASED,
+            'p_very_biased': P_VERY_BIASED
         }
 
     def before_next_page(self):
@@ -90,15 +89,17 @@ class RevealBiasedOrVeryBiasedOutcome(Page):
 
 class GuessBiasedVeryBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = ['biased_outcome', 'very_biased_outcome']  # Collect outcomes manually
+    form_fields = ['biased_outcome', 'very_biased_outcome']
 
     def vars_for_template(self):
+        # Retrieve the coin order from the previous choice page
+        coins = self.session.vars['biased_or_very_biased_order']
         return {
-            'round_number': self.round_number
+            'round_number': self.round_number,
+            'coins': coins
         }
 
     def before_next_page(self):
-        # Combine biased and very biased coin outcomes into coin_permutation_choice
         self.player.coin_permutation_choice = f"{self.player.biased_outcome}{self.player.very_biased_outcome}"
 
 class ChooseFairOrVeryBiased(Page):
@@ -109,11 +110,13 @@ class ChooseFairOrVeryBiased(Page):
         # Randomize coin positions
         coins = [('fair', 'Fair'), ('very biased', 'Very Biased')]
         random.shuffle(coins)
+        # Store coin order in session vars to align with the next page
+        self.session.vars['fair_or_very_biased_order'] = coins
         return {
             'round_number': self.round_number,
             'coins': coins,
-            'p_fair': P_FAIR,  # Pass the fair coin probability
-            'p_very_biased': P_VERY_BIASED  # Pass the very biased coin probability
+            'p_fair': P_FAIR,
+            'p_very_biased': P_VERY_BIASED
         }
 
     def before_next_page(self):
@@ -128,15 +131,17 @@ class RevealFairOrVeryBiasedOutcome(Page):
 
 class GuessFairVeryBiasedOutcome(Page):
     form_model = 'player'
-    form_fields = ['fair_outcome', 'very_biased_outcome']  # Collect outcomes manually
+    form_fields = ['fair_outcome', 'very_biased_outcome']
 
     def vars_for_template(self):
+        # Retrieve the coin order from the previous choice page
+        coins = self.session.vars['fair_or_very_biased_order']
         return {
-            'round_number': self.round_number
+            'round_number': self.round_number,
+            'coins': coins
         }
 
     def before_next_page(self):
-        # Combine fair and very biased coin outcomes into coin_permutation_choice
         self.player.coin_permutation_choice = f"{self.player.fair_outcome}{self.player.very_biased_outcome}"
 
 class Results(Page):
@@ -162,4 +167,3 @@ page_sequence = [
     GuessFairVeryBiasedOutcome,
     Results
 ]
-
