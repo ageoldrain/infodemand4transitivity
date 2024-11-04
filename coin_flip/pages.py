@@ -1,10 +1,8 @@
-from otree.api import Page, WaitPage
+# pages.py
+
+from otree.api import Page
 from .models import C
 import random
-
-P_FAIR = 0.5
-P_BIASED = 0.75  # Probability of heads for biased coin
-P_VERY_BIASED = 0.95  # Probability of heads for very biased coin
 
 class Introduction(Page):
     def is_displayed(self):
@@ -22,153 +20,87 @@ class Introduction2(Page):
     def is_displayed(self):
         return self.round_number == 1
 
-class ChooseFairOrBiased(Page):
+class CoinChoice(Page):
     form_model = 'player'
-    form_fields = ['first_coin_choice']
+    form_fields = ['coin_choice']
 
     def vars_for_template(self):
         # Randomize coin positions
-        coins = [('fair', 'Fair'), ('biased', 'Biased')]
+        coins = [(self.player.coin1, self.player.coin1.replace('_', ' ').title()),
+                 (self.player.coin2, self.player.coin2.replace('_', ' ').title())]
         random.shuffle(coins)
-        # Store coin order in session vars to align with the next page
-        self.session.vars['fair_or_biased_order'] = coins
+        self.participant.vars['coin_order'] = coins  # For use in templates
+
+        # Calculate block and subround numbers
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
+
         return {
-            'round_number': self.round_number,
             'coins': coins,
-            'p_fair': P_FAIR,
-            'p_biased': P_BIASED
+            'block_number': block_number,
+            'subround_number': subround_number,
+            'round_number': self.round_number
         }
 
     def before_next_page(self):
-        self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.first_coin_choice)
+        self.player.flip_coins()
 
-class RevealFairOrBiasedOutcome(Page):
+class RevealCoinOutcome(Page):
     def vars_for_template(self):
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
+
         return {
-            'round_number': self.round_number,
-            'chosen_coin_result': self.player.chosen_coin_result
+            'chosen_coin': self.player.coin_choice.replace('_', ' ').title(),
+            'chosen_coin_result': self.player.chosen_coin_result,
+            'block_number': block_number,
+            'subround_number': subround_number,
+            'round_number': self.round_number
         }
 
-class GuessFairBiasedOutcome(Page):
+class GuessOutcomes(Page):
     form_model = 'player'
-    form_fields = ['fair_outcome', 'biased_outcome']
+    form_fields = ['coin1_outcome_guess', 'coin2_outcome_guess']
 
     def vars_for_template(self):
-        # Retrieve the coin order from the previous choice page
-        coins = self.session.vars['fair_or_biased_order']
+        coins = self.participant.vars['coin_order']
+        coin_labels = [coin[1] for coin in coins]
+
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
+
         return {
-            'round_number': self.round_number,
-            'coins': coins
-        }
-
-    def before_next_page(self):
-        self.player.coin_permutation_choice = f"{self.player.fair_outcome}{self.player.biased_outcome}"
-
-class ChooseBiasedOrVeryBiased(Page):
-    form_model = 'player'
-    form_fields = ['second_coin_choice']
-
-    def vars_for_template(self):
-        # Randomize coin positions
-        coins = [('biased', 'Biased'), ('very biased', 'Very Biased')]
-        random.shuffle(coins)
-        # Store coin order in session vars to align with the next page
-        self.session.vars['biased_or_very_biased_order'] = coins
-        return {
-            'round_number': self.round_number,
             'coins': coins,
-            'p_biased': P_BIASED,
-            'p_very_biased': P_VERY_BIASED
+            'coin_labels': coin_labels,
+            'block_number': block_number,
+            'subround_number': subround_number,
+            'round_number': self.round_number
         }
 
     def before_next_page(self):
-        self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.second_coin_choice)
-
-class RevealBiasedOrVeryBiasedOutcome(Page):
-    def vars_for_template(self):
-        return {
-            'round_number': self.round_number,
-            'chosen_coin_result': self.player.chosen_coin_result
-        }
-
-class GuessBiasedVeryBiasedOutcome(Page):
-    form_model = 'player'
-    form_fields = ['biased_outcome', 'very_biased_outcome']
-
-    def vars_for_template(self):
-        # Retrieve the coin order from the previous choice page
-        coins = self.session.vars['biased_or_very_biased_order']
-        return {
-            'round_number': self.round_number,
-            'coins': coins
-        }
-
-    def before_next_page(self):
-        self.player.coin_permutation_choice = f"{self.player.biased_outcome}{self.player.very_biased_outcome}"
-
-class ChooseFairOrVeryBiased(Page):
-    form_model = 'player'
-    form_fields = ['third_coin_choice']
-
-    def vars_for_template(self):
-        # Randomize coin positions
-        coins = [('fair', 'Fair'), ('very biased', 'Very Biased')]
-        random.shuffle(coins)
-        # Store coin order in session vars to align with the next page
-        self.session.vars['fair_or_very_biased_order'] = coins
-        return {
-            'round_number': self.round_number,
-            'coins': coins,
-            'p_fair': P_FAIR,
-            'p_very_biased': P_VERY_BIASED
-        }
-
-    def before_next_page(self):
-        self.player.flip_chosen_coin(p_fair=P_FAIR, p_biased=P_BIASED, p_very_biased=P_VERY_BIASED, chosen_coin=self.player.third_coin_choice)
-
-class RevealFairOrVeryBiasedOutcome(Page):
-    def vars_for_template(self):
-        return {
-            'round_number': self.round_number,
-            'chosen_coin_result': self.player.chosen_coin_result
-        }
-
-class GuessFairVeryBiasedOutcome(Page):
-    form_model = 'player'
-    form_fields = ['fair_outcome', 'very_biased_outcome']
-
-    def vars_for_template(self):
-        # Retrieve the coin order from the previous choice page
-        coins = self.session.vars['fair_or_very_biased_order']
-        return {
-            'round_number': self.round_number,
-            'coins': coins
-        }
-
-    def before_next_page(self):
-        self.player.coin_permutation_choice = f"{self.player.fair_outcome}{self.player.very_biased_outcome}"
+        self.player.calculate_winnings()
 
 class Results(Page):
-    def vars_for_template(self):
-        return {'winnings': sum([player.total_winnings for player in self.player.in_all_rounds()])}
-
     def is_displayed(self):
         return self.round_number == C.NUM_ROUNDS
 
-# Update the sequence
+    def vars_for_template(self):
+        total_winnings = self.player.total_winnings
+        return {
+            'total_winnings': total_winnings
+        }
+
+# Define the page sequence
 page_sequence = [
+    # Introduction pages
     Introduction,
     Introduction1point5,
     Introduction1point6,
     Introduction2,
-    ChooseFairOrBiased,
-    RevealFairOrBiasedOutcome,
-    GuessFairBiasedOutcome,
-    ChooseBiasedOrVeryBiased,
-    RevealBiasedOrVeryBiasedOutcome,
-    GuessBiasedVeryBiasedOutcome,
-    ChooseFairOrVeryBiased,
-    RevealFairOrVeryBiasedOutcome,
-    GuessFairVeryBiasedOutcome,
+    # Experiment pages
+    CoinChoice,
+    RevealCoinOutcome,
+    GuessOutcomes,
+    # The sequence above repeats for each round
     Results
 ]
