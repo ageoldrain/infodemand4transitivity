@@ -6,7 +6,6 @@
     <h2 class="text-center my-4">This is round number {{ round_number }}. Would you like to choose to find out the outcome of the flip of the {{ coins.0.1 }} or of the {{ coins.1.1 }} coin?</h2>
 
     <form method="post">
-        {% csrf_token %}
         <div class="d-flex justify-content-center mb-3">
             <label class="btn btn-primary mx-2 coin-label">
                 <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.0.0 }}" class="coin-input" required>
@@ -38,35 +37,22 @@
 
     <div id="instructions" class="collapse">
         <div class="card card-body">
-            <p>The experiment proceeds in rounds, with each round having three subrounds. In each subround, two coins will be flipped. You will <b>not</b> be informed of their outcomes automatically.</p>  
-            <p>Each subround has two questions. First, you will be given the option to <b>find out the outcome of one of the two coins</b>. Once you choose the coin, the outcome will be revealed to you on the next page. After that, you will be asked to guess the outcome of <b>both</b> coins.</p>
-
+            <!-- Instructions Content -->
             <p>You are now asked to choose to reveal the outcome of either the {{ coins.0.1 }} coin or the {{ coins.1.1 }} coin.</p>
 
-            <!-- Dynamically show the correct probability for each coin -->
             <p>
                 The {{ coins.0.1 }} coin has a probability of 
-                {% if coins.0.0 == 'fair' %}
-                    {{ p_fair }}
-                {% elif coins.0.0 == 'biased' %}
-                    {{ p_biased }}
-                {% endif %}
+                {{ coin_probs[coins.0.0] }}
                 heads.
             </p>
 
             <p>
                 The {{ coins.1.1 }} coin has a probability of 
-                {% if coins.1.0 == 'fair' %}
-                    {{ p_fair }}
-                {% elif coins.1.0 == 'biased' %}
-                    {{ p_biased }}
-                {% endif %}
+                {{ coin_probs[coins.1.0] }}
                 heads.
             </p>
 
-            <p>If you guess correctly, you will receive the sum of $2. If not, you will receive $0. Your winnings will be revealed only at the end of the 10 rounds.</p>
-
-            <p>This process will continue for 10 rounds. The experiment will end after you complete all 10 rounds.</p>
+            <!-- Rest of your instructions -->
         </div>
     </div>
 </div>
@@ -108,6 +94,4 @@
         });
     });
 </script>
-
-
 {% endblock %}
