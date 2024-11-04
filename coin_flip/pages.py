@@ -14,6 +14,10 @@ class Introduction1point5(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+class Introduction1point6(Page):
+    def is_displayed(self):
+        return self.round_number == 1
+
 class Introduction2(Page):
     def is_displayed(self):
         return self.round_number == 1
