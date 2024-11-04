@@ -1,0 +1,63 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">This is round number {{ round_number }}. Would you like to choose to find out the outcome of the flip of the {{ coins.0.1 }} or of the {{ coins.1.1 }} coin?</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center mb-3">
+            <label class="btn btn-primary mx-2 coin-label">
+                <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.0.0 }}" class="coin-input" required>
+                <img src="path_to_coin_image" alt="{{ coins.0.1 }}" class="coin-image">
+                <div>{{ coins.0.1 }}</div>
+            </label>
+            <label class="btn btn-primary mx-2 coin-label">
+                <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.1.0 }}" class="coin-input" required>
+                <img src="path_to_coin_image" alt="{{ coins.1.1 }}" class="coin-image">
+                <div>{{ coins.1.1 }}</div>
+            </label>
+        </div>
+
+        {% if form.coin_choice.errors %}
+            <div class="alert alert-danger text-center">
+                {{ form.coin_choice.errors }}
+            </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-center">
+            {% next_button %}
+        </div>
+    </form>
+
+    <!-- Review Instructions Accordion -->
+    <div class="text-center my-3">
+        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#instructions">Review Instructions</button>
+    </div>
+
+    <div id="instructions" class="collapse">
+        <div class="card card-body">
+            <!-- Instructions Content -->
+            <p>You are now asked to choose to reveal the outcome of either the {{ coins.0.1 }} coin or the {{ coins.1.1 }} coin.</p>
+
+            <p>
+                The {{ coins.0.1 }} coin has a probability of 
+                {{ coin_probs[coins.0.0] }}
+                heads.
+            </p>
+
+            <p>
+                The {{ coins.1.1 }} coin has a probability of 
+                {{ coin_probs[coins.1.0] }}
+                heads.
+            </p>
+
+            <!-- Rest of your instructions -->
+        </div>
+    </div>
+</div>
+
+<!-- Your styles and scripts -->
+
+{% endblock %}
