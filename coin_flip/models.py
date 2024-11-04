@@ -3,16 +3,12 @@
 from otree.api import *
 import random
 
-doc = """
-Curiosity and Information Demand with Three Coins: Fair, Biased, and Very Biased
-"""
-
 class C(BaseConstants):
-    NAME_IN_URL = 'economics_experiment'
+    NAME_IN_URL = 'coin_flip'
     PLAYERS_PER_GROUP = None
-    NUM_BLOCKS = 10  # Number of main rounds
-    NUM_SUBROUNDS_PER_BLOCK = 3  # Each block has 3 subrounds
-    NUM_ROUNDS = NUM_BLOCKS * NUM_SUBROUNDS_PER_BLOCK  # Total rounds
+    NUM_BLOCKS = 10
+    NUM_SUBROUNDS_PER_BLOCK = 3
+    NUM_ROUNDS = NUM_BLOCKS * NUM_SUBROUNDS_PER_BLOCK
 
     COIN_PAIRS = [
         ('fair', 'biased'),
@@ -29,21 +25,16 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     def creating_session(self):
         for player in self.get_players():
-            # Determine block number and subround number
             block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
             subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK
 
-            # For the first subround of each block, randomize coin pairs
             if subround_number == 0:
-                # Randomize the order of coin pairs for this block
                 coin_pairs = C.COIN_PAIRS.copy()
                 random.shuffle(coin_pairs)
                 player.participant.vars[f'coin_pairs_block_{block_number}'] = coin_pairs
             else:
-                # Use the existing coin_pairs for this block
                 coin_pairs = player.participant.vars[f'coin_pairs_block_{block_number}']
 
-            # Assign the coin pair for this subround
             player.coin1, player.coin2 = coin_pairs[subround_number]
 
 class Group(BaseGroup):
@@ -54,18 +45,23 @@ class Player(BasePlayer):
     coin1 = models.StringField()
     coin2 = models.StringField()
 
-    # Player's choice between the two coins
+    # Player's coin choice
     coin_choice = models.StringField()
 
     # Guessed outcomes for each coin
-    coin1_outcome_guess = models.StringField(
+    fair_outcome = models.StringField(
         choices=['H', 'T'],
-        label="Your guess for the outcome of the first coin",
+        label="Your guess for the Fair coin",
         widget=widgets.RadioSelect
     )
-    coin2_outcome_guess = models.StringField(
+    biased_outcome = models.StringField(
         choices=['H', 'T'],
-        label="Your guess for the outcome of the second coin",
+        label="Your guess for the Biased coin",
+        widget=widgets.RadioSelect
+    )
+    very_biased_outcome = models.StringField(
+        choices=['H', 'T'],
+        label="Your guess for the Very Biased coin",
         widget=widgets.RadioSelect
     )
 
@@ -95,8 +91,15 @@ class Player(BasePlayer):
     def calculate_winnings(self):
         # Calculate winnings for this subround
         round_winnings = cu(0)
-        if self.coin1_outcome_guess == self.coin1_result and self.coin2_outcome_guess == self.coin2_result:
-            round_winnings = cu(2)
+        if 'fair' in [self.coin1, self.coin2]:
+            if self.fair_outcome == self.coin1_result if self.coin1 == 'fair' else self.coin2_result:
+                round_winnings += cu(1)
+        if 'biased' in [self.coin1, self.coin2]:
+            if self.biased_outcome == self.coin1_result if self.coin1 == 'biased' else self.coin2_result:
+                round_winnings += cu(1)
+        if 'very biased' in [self.coin1, self.coin2]:
+            if self.very_biased_outcome == self.coin1_result if self.coin1 == 'very biased' else self.coin2_result:
+                round_winnings += cu(1)
 
         # Update total winnings
         if self.round_number == 1:
