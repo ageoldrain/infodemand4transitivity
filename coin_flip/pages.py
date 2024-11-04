@@ -23,31 +23,38 @@ class Introduction2(Page):
 class CoinChoice(Page):
     form_model = 'player'
     form_fields = ['coin_choice']
-
-    def get_template_names(self):
-        coin_pair = sorted([self.player.coin1, self.player.coin2])
-        if coin_pair == ['biased', 'fair']:
-            return ['coin_flip/ChooseFairOrBiased.html']
-        elif coin_pair == ['biased', 'very biased']:
-            return ['coin_flip/ChooseBiasedOrVeryBiased.html']
-        elif coin_pair == ['fair', 'very biased']:
-            return ['coin_flip/ChooseFairOrVeryBiased.html']
-        else:
-            return ['coin_flip/CoinChoice.html']
+    template_name = 'coin_flip/CoinChoice.html'  # Specify the template name
 
     def vars_for_template(self):
-        coins = [(self.player.coin1, self.player.coin1.replace('_', ' ').title()),
-                 (self.player.coin2, self.player.coin2.replace('_', ' ').title())]
+        # Randomize coin positions
+        coins = [
+            (self.player.coin1, self.player.coin1.replace('_', ' ').title()),
+            (self.player.coin2, self.player.coin2.replace('_', ' ').title())
+        ]
         random.shuffle(coins)
-        self.participant.vars['coin_order'] = coins
+        self.participant.vars['coin_order'] = coins  # For use in templates
 
+        # Get coin probabilities
         p_fair = C.COIN_PROBABILITIES.get('fair')
         p_biased = C.COIN_PROBABILITIES.get('biased')
         p_very_biased = C.COIN_PROBABILITIES.get('very biased')
 
+        # Prepare probabilities for coins in this round
+        coin_probs = {}
+        for coin in [self.player.coin1, self.player.coin2]:
+            coin_key = coin.replace(' ', '_')
+            coin_probs[coin] = C.COIN_PROBABILITIES[coin]
+
+        # Calculate block and subround numbers
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
+
         return {
             'coins': coins,
+            'coin_probs': coin_probs,
             'round_number': self.round_number,
+            'block_number': block_number,
+            'subround_number': subround_number,
             'p_fair': p_fair,
             'p_biased': p_biased,
             'p_very_biased': p_very_biased,
@@ -58,10 +65,15 @@ class CoinChoice(Page):
 
 class RevealCoinOutcome(Page):
     def vars_for_template(self):
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
+
         return {
             'chosen_coin': self.player.coin_choice.replace('_', ' ').title(),
             'chosen_coin_result': self.player.chosen_coin_result,
-            'round_number': self.round_number
+            'round_number': self.round_number,
+            'block_number': block_number,
+            'subround_number': subround_number,
         }
 
 class GuessOutcomes(Page):
@@ -80,9 +92,15 @@ class GuessOutcomes(Page):
 
     def vars_for_template(self):
         coins = self.participant.vars['coin_order']
+
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
+
         return {
             'coins': coins,
-            'round_number': self.round_number
+            'round_number': self.round_number,
+            'block_number': block_number,
+            'subround_number': subround_number,
         }
 
     def before_next_page(self):
@@ -98,13 +116,17 @@ class Results(Page):
             'total_winnings': total_winnings
         }
 
+# Define the page sequence
 page_sequence = [
+    # Introduction pages
     Introduction,
     Introduction1point5,
     Introduction1point6,
     Introduction2,
+    # Experiment pages
     CoinChoice,
     RevealCoinOutcome,
     GuessOutcomes,
+    # The sequence repeats for each round
     Results
 ]
