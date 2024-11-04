@@ -159,6 +159,7 @@ class Results(Page):
 page_sequence = [
     Introduction,
     Introduction1point5,
+    Introduction1point6,
     Introduction2,
     ChooseFairOrBiased,
     RevealFairOrBiasedOutcome,
