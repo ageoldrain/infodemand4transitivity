@@ -125,6 +125,7 @@ class GuessOutcomes(Page):
 
         self.player.calculate_winnings()
 
+
 class Results(Page):
     def is_displayed(self):
         return self.round_number == C.NUM_ROUNDS
