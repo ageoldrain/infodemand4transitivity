@@ -112,8 +112,11 @@ class GuessOutcomes(Page):
 
             # Extract necessary data from the form field
             choices = field.choices
-            field_value = self.player.field_maybe_none(field_name)  # Use field_maybe_none()
+            field_value = self.player.field_maybe_none(field_name)
             field_id_prefix = field_name  # Use field name as ID prefix
+
+            # Get field errors (returns a list of errors)
+            field_errors = form.errors.get(field_name, [])
 
             coin_forms.append({
                 'coin_name': coin_name,
@@ -122,6 +125,7 @@ class GuessOutcomes(Page):
                 'field_value': field_value,
                 'choices': choices,
                 'field_id_prefix': field_id_prefix,
+                'errors': field_errors,  # Add errors to the coin_forms
             })
 
         return {
