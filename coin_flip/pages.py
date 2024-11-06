@@ -76,6 +76,8 @@ class RevealCoinOutcome(Page):
             'subround_number': subround_number,
         }
 
+# pages.py
+
 class GuessOutcomes(Page):
     form_model = 'player'
 
@@ -96,8 +98,29 @@ class GuessOutcomes(Page):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
+        # Prepare a list of coins with their corresponding form field names
+        coin_forms = []
+        for coin in coins:
+            coin_name = coin[0]  # 'fair', 'biased', etc.
+            coin_display_name = coin[1]  # 'Fair', 'Biased', etc.
+            if coin_name == 'fair':
+                field_name = 'fair_outcome'
+            elif coin_name == 'biased':
+                field_name = 'biased_outcome'
+            elif coin_name == 'very biased':
+                field_name = 'very_biased_outcome'
+            else:
+                field_name = None  # Should not happen
+
+            coin_forms.append({
+                'coin_name': coin_name,
+                'coin_display_name': coin_display_name,
+                'field_name': field_name,
+            })
+
         return {
             'coins': coins,
+            'coin_forms': coin_forms,
             'round_number': self.round_number,
             'block_number': block_number,
             'subround_number': subround_number,
@@ -105,6 +128,7 @@ class GuessOutcomes(Page):
 
     def before_next_page(self):
         self.player.calculate_winnings()
+
 
 class Results(Page):
     def is_displayed(self):
