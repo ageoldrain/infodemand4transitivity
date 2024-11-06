@@ -79,10 +79,14 @@ class GuessOutcomes(Page):
     form_fields = ['fair_outcome', 'biased_outcome', 'very_biased_outcome']
 
     def vars_for_template(self):
+        # Retrieve the coin order from the previous CoinChoice page
+        coins = self.participant.vars.get('coin_order', [])
+
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
         return {
+            'coins': coins,
             'block_number': block_number,
             'subround_number': subround_number,
         }
