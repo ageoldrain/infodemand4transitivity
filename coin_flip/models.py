@@ -8,7 +8,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_BLOCKS = 10
     NUM_SUBROUNDS_PER_BLOCK = 3
-    NUM_ROUNDS = C.NUM_BLOCKS * C.NUM_SUBROUNDS_PER_BLOCK  # 10 blocks * 3 subrounds = 30 rounds
+    NUM_ROUNDS = NUM_BLOCKS * NUM_SUBROUNDS_PER_BLOCK  # 10 blocks * 3 subrounds = 30 rounds
 
     COIN_PAIRS = [
         ('fair', 'biased'),
@@ -109,15 +109,18 @@ class Player(BasePlayer):
 
         # Check guesses and actual results for each coin
         if self.coin1 == 'fair' or self.coin2 == 'fair':
-            if self.fair_outcome == (self.coin1_result if self.coin1 == 'fair' else self.coin2_result):
+            fair_result = self.coin1_result if self.coin1 == 'fair' else self.coin2_result
+            if self.fair_outcome == fair_result:
                 round_winnings += cu(1)
 
         if self.coin1 == 'biased' or self.coin2 == 'biased':
-            if self.biased_outcome == (self.coin1_result if self.coin1 == 'biased' else self.coin2_result):
+            biased_result = self.coin1_result if self.coin1 == 'biased' else self.coin2_result
+            if self.biased_outcome == biased_result:
                 round_winnings += cu(1)
 
         if self.coin1 == 'very biased' or self.coin2 == 'very biased':
-            if self.very_biased_outcome == (self.coin1_result if self.coin1 == 'very biased' else self.coin2_result):
+            very_biased_result = self.coin1_result if self.coin1 == 'very biased' else self.coin2_result
+            if self.very_biased_outcome == very_biased_result:
                 round_winnings += cu(1)
 
         # Update total winnings
@@ -129,3 +132,4 @@ class Player(BasePlayer):
 
         # Store the winnings for this round
         self.payoff = round_winnings
+
