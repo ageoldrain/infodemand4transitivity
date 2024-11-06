@@ -94,29 +94,26 @@ class GuessOutcomes(Page):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
-        # Create the form instance bound to the player
-        form = self.get_form()
-
-        # Prepare a list of coins with their corresponding form fields
+        # Prepare a list of coins with their corresponding form field names
         coin_forms = []
         for coin in coins:
-            coin_name = coin[0]  # 'fair', 'biased', etc.
-            coin_display_name = coin[1]  # 'Fair', 'Biased', etc.
+            coin_name = coin[0]
+            coin_display_name = coin[1]
 
-            # Get the corresponding form field
+            # Get the corresponding form field name
             if coin_name == 'fair':
-                field = form['fair_outcome']
+                field_name = 'fair_outcome'
             elif coin_name == 'biased':
-                field = form['biased_outcome']
+                field_name = 'biased_outcome'
             elif coin_name == 'very biased':
-                field = form['very_biased_outcome']
+                field_name = 'very_biased_outcome'
             else:
-                field = None  # Should not happen
+                field_name = None  # Should not happen
 
             coin_forms.append({
                 'coin_name': coin_name,
                 'coin_display_name': coin_display_name,
-                'field': field,
+                'field_name': field_name,
             })
 
         return {
@@ -126,7 +123,7 @@ class GuessOutcomes(Page):
             'block_number': block_number,
             'subround_number': subround_number,
         }
-
+        
     def before_next_page(self):
         self.player.calculate_winnings()
 
