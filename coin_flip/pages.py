@@ -132,6 +132,7 @@ class GuessOutcomes(Page):
             'coin_forms': coin_forms,
             'block_number': block_number,
             'subround_number': subround_number,
+            'form': form,  # Include the form in the context
         }
 
     def before_next_page(self):
