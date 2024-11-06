@@ -18,7 +18,7 @@
             {% for coin in coin_forms %}
                 <div class="mx-2 text-center">
                     <h3>{{ coin.coin_display_name }} Coin</h3>
-                    <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ coin.coin_display_name }}" class="coin-image mb-2">
+
                     <div>
                         {% if coin.field_name == 'fair_outcome' %}
                             {{ form.fair_outcome }}
@@ -44,10 +44,5 @@
     </form>
 </div>
 
-<style>
-    .coin-image {
-        max-width: 150px;
-        margin-bottom: 10px;
-    }
-</style>
+
 {% endblock %}
