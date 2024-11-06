@@ -1,5 +1,6 @@
 {% extends "global/Page.html" %}
 {% load otree %}
+{% load static %}
 
 {% block content %}
 <div class="container">
@@ -14,7 +15,13 @@
                     <h3>{{ coin.coin_display_name }} Coin</h3>
                     <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ coin.coin_display_name }}" class="coin-image mb-2">
                     <div>
-                        {{ form[coin.field_name] }}
+                        {% if coin.field_name == 'fair_outcome' %}
+                            {{ form.fair_outcome }}
+                        {% elif coin.field_name == 'biased_outcome' %}
+                            {{ form.biased_outcome }}
+                        {% elif coin.field_name == 'very_biased_outcome' %}
+                            {{ form.very_biased_outcome }}
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
