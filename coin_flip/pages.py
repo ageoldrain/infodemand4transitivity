@@ -46,8 +46,8 @@ class CoinChoice(Page):
         prob_coin1 = coin_probs[coins[1][0]]
 
         # Calculate block and subround numbers
-        block_number = (self.round_number - 1) // 3 + 1
-        subround_number = (self.round_number - 1) % 3 + 1
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
         return {
             'coins': coins,
@@ -63,8 +63,8 @@ class CoinChoice(Page):
 
 class RevealCoinOutcome(Page):
     def vars_for_template(self):
-        block_number = (self.round_number - 1) // 3 + 1
-        subround_number = (self.round_number - 1) % 3 + 1
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
         return {
             'chosen_coin': self.player.coin_choice.replace('_', ' ').title(),
@@ -91,8 +91,8 @@ class GuessOutcomes(Page):
     def vars_for_template(self):
         coins = self.participant.vars['coin_order']
 
-        block_number = (self.round_number - 1) // 3 + 1
-        subround_number = (self.round_number - 1) % 3 + 1
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
         # Prepare a list of coins with their corresponding form fields
         coin_forms = []
