@@ -50,34 +50,26 @@ class Player(BasePlayer):
     coin2 = models.StringField()
 
     # Player's coin choice
-    coin_choice = models.StringField(
-        choices=[
-            ['fair', 'Fair Coin'],
-            ['biased', 'Biased Coin'],
-            ['very biased', 'Very Biased Coin'],
-        ],
-        label="Which coin would you like to flip?",
-        widget=widgets.RadioSelect,
-    )
+    coin_choice = models.StringField()
 
     # Guessed outcomes for each coin (made optional with blank=True)
     fair_outcome = models.StringField(
-        choices=[['Heads', 'Heads'], ['Tails', 'Tails']],
+        choices=['Heads', 'Tails'],
         label="Your guess for the Fair coin",
         widget=widgets.RadioSelect,
-        blank=True  # Allow the field to be left blank when not relevant
+        blank=True
     )
     biased_outcome = models.StringField(
-        choices=[['Heads', 'Heads'], ['Tails', 'Tails']],
+        choices=['Heads', 'Tails'],
         label="Your guess for the Biased coin",
         widget=widgets.RadioSelect,
-        blank=True  # Allow the field to be left blank when not relevant
+        blank=True
     )
     very_biased_outcome = models.StringField(
-        choices=[['Heads', 'Heads'], ['Tails', 'Tails']],
+        choices=['Heads', 'Tails'],
         label="Your guess for the Very Biased coin",
         widget=widgets.RadioSelect,
-        blank=True  # Allow the field to be left blank when not relevant
+        blank=True
     )
 
     # Actual outcomes
@@ -107,20 +99,31 @@ class Player(BasePlayer):
         # Calculate winnings for this subround
         round_winnings = cu(0)
 
+        # Safely access the guessed outcomes using field_maybe_none()
+        fair_guess = self.field_maybe_none('fair_outcome')
+        biased_guess = self.field_maybe_none('biased_outcome')
+        very_biased_guess = self.field_maybe_none('very_biased_outcome')
+
         # Check guesses and actual results for each coin
-        if self.coin1 == 'fair' or self.coin2 == 'fair':
-            fair_result = self.coin1_result if self.coin1 == 'fair' else self.coin2_result
-            if self.fair_outcome == fair_result:
+        if self.coin1 == 'fair' and fair_guess is not None:
+            if fair_guess == self.coin1_result:
+                round_winnings += cu(1)
+        elif self.coin2 == 'fair' and fair_guess is not None:
+            if fair_guess == self.coin2_result:
                 round_winnings += cu(1)
 
-        if self.coin1 == 'biased' or self.coin2 == 'biased':
-            biased_result = self.coin1_result if self.coin1 == 'biased' else self.coin2_result
-            if self.biased_outcome == biased_result:
+        if self.coin1 == 'biased' and biased_guess is not None:
+            if biased_guess == self.coin1_result:
+                round_winnings += cu(1)
+        elif self.coin2 == 'biased' and biased_guess is not None:
+            if biased_guess == self.coin2_result:
                 round_winnings += cu(1)
 
-        if self.coin1 == 'very biased' or self.coin2 == 'very biased':
-            very_biased_result = self.coin1_result if self.coin1 == 'very biased' else self.coin2_result
-            if self.very_biased_outcome == very_biased_result:
+        if self.coin1 == 'very biased' and very_biased_guess is not None:
+            if very_biased_guess == self.coin1_result:
+                round_winnings += cu(1)
+        elif self.coin2 == 'very biased' and very_biased_guess is not None:
+            if very_biased_guess == self.coin2_result:
                 round_winnings += cu(1)
 
         # Update total winnings
@@ -132,4 +135,3 @@ class Player(BasePlayer):
 
         # Store the winnings for this round
         self.payoff = round_winnings
-
