@@ -3,18 +3,22 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">This is round number {{ round_number }}. Would you like to choose to find out the outcome of the flip of the {{ coins.0.1 }} or of the {{ coins.1.1 }} coin?</h2>
+    <h2 class="text-center my-4">
+        This is round number {{ round_number }}. Would you like to choose to find out the outcome of the flip of the {{ coins.0.1 }} or of the {{ coins.1.1 }} coin?
+    </h2>
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
+            <!-- First Coin -->
             <label class="btn btn-primary mx-2 coin-label">
                 <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.0.0 }}" class="coin-input" required>
-                <img src="{% static 'coin_flip/templates/coin_flip/CoinImage.png' %}" alt="{{ coins.0.1 }}" class="coin-image">
+                <img src="CoinImage.png" alt="{{ coins.0.1 }}" class="coin-image">
                 <div>{{ coins.0.1 }}</div>
             </label>
+            <!-- Second Coin -->
             <label class="btn btn-primary mx-2 coin-label">
                 <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.1.0 }}" class="coin-input" required>
-                <img src="{% static 'coin_flip/templates/coin_flip/CoinImage.png' %}" alt="{{ coins.1.1 }}" class="coin-image">
+                <img src="CoinImage.png" alt="{{ coins.1.1 }}" class="coin-image">
                 <div>{{ coins.1.1 }}</div>
             </label>
         </div>
@@ -32,24 +36,24 @@
 
     <!-- Review Instructions Accordion -->
     <div class="text-center my-3">
-        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#instructions">Review Instructions</button>
+        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#instructions">
+            Review Instructions
+        </button>
     </div>
 
     <div id="instructions" class="collapse">
         <div class="card card-body">
             <!-- Instructions Content -->
-            <p>You are now asked to choose to reveal the outcome of either the {{ coins.0.1 }} coin or the {{ coins.1.1 }} coin.</p>
-
             <p>
-                The {{ coins.0.1 }} coin has a probability of 
-                {{ prob_coin0 }}
-                heads.
+                You are now asked to choose to reveal the outcome of either the {{ coins.0.1 }} coin or the {{ coins.1.1 }} coin.
             </p>
 
             <p>
-                The {{ coins.1.1 }} coin has a probability of 
-                {{ prob_coin1 }}
-                heads.
+                The {{ coins.0.1 }} coin has a probability of {{ prob_coin0 }} heads.
+            </p>
+
+            <p>
+                The {{ coins.1.1 }} coin has a probability of {{ prob_coin1 }} heads.
             </p>
 
             <!-- Rest of your instructions -->
