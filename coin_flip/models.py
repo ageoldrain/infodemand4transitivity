@@ -54,17 +54,17 @@ class Player(BasePlayer):
 
     # Guessed outcomes for each coin
     fair_outcome = models.StringField(
-        choices=['H', 'T'],
+        choices=['Heads', 'Tails'],
         label="Your guess for the Fair coin",
         widget=widgets.RadioSelect
     )
     biased_outcome = models.StringField(
-        choices=['H', 'T'],
+        choices=['Heads', 'Tails'],
         label="Your guess for the Biased coin",
         widget=widgets.RadioSelect
     )
     very_biased_outcome = models.StringField(
-        choices=['H', 'T'],
+        choices=['Heads', 'Tails'],
         label="Your guess for the Very Biased coin",
         widget=widgets.RadioSelect
     )
@@ -83,8 +83,8 @@ class Player(BasePlayer):
         # Flip both coins and store the results
         p_coin1 = C.COIN_PROBABILITIES[self.coin1]
         p_coin2 = C.COIN_PROBABILITIES[self.coin2]
-        self.coin1_result = 'H' if random.random() < p_coin1 else 'T'
-        self.coin2_result = 'H' if random.random() < p_coin2 else 'T'
+        self.coin1_result = 'Heads' if random.random() < p_coin1 else 'Tails'
+        self.coin2_result = 'Heads' if random.random() < p_coin2 else 'Tails'
 
         # Store the result of the chosen coin
         if self.coin_choice == self.coin1:
