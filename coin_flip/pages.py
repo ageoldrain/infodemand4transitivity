@@ -112,7 +112,7 @@ class GuessOutcomes(Page):
 
             # Extract necessary data from the form field
             choices = field.choices
-            field_value = getattr(self.player, field_name)  # Corrected
+            field_value = self.player.field_maybe_none(field_name)  # Use field_maybe_none()
             field_id_prefix = field_name  # Use field name as ID prefix
 
             coin_forms.append({
@@ -141,6 +141,7 @@ class GuessOutcomes(Page):
             self.player.very_biased_outcome = None
 
         self.player.calculate_winnings()
+
 
 class Results(Page):
     def is_displayed(self):
