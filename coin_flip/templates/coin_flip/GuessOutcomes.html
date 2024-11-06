@@ -15,16 +15,17 @@
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
-            {% csrf_token %}
             {% for coin in coin_forms %}
                 <div class="mx-2 text-center">
                     <h3>{{ coin.coin_display_name }} Coin</h3>
 
                     <div class="btn-group" role="group">
-                        {% for choice in coin.field.field.choices %}
-                            <input type="radio" class="btn-check" name="{{ coin.field.name }}" id="{{ coin.field.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if coin.field.value == choice.0 %}checked{% endif %} required>
-                            <label class="btn btn-primary" for="{{ coin.field.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
-                        {% endfor %}
+                        {% with field=form[coin.field_name] %}
+                            {% for choice in field.field.choices %}
+                                <input type="radio" class="btn-check" name="{{ field.name }}" id="{{ field.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if field.value == choice.0 %}checked{% endif %} required>
+                                <label class="btn btn-primary" for="{{ field.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
+                            {% endfor %}
+                        {% endwith %}
                     </div>
                 </div>
             {% endfor %}
