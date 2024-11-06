@@ -128,8 +128,8 @@ class GuessOutcomes(Page):
                 'errors': field_errors,  # Add errors to the coin_forms
             })
 
-        # Collect non-field errors
-        non_field_errors = form.non_field_errors()
+        # Collect non-field errors from form.errors
+        non_field_errors = form.errors.get('__all__', [])
 
         return {
             'coin_forms': coin_forms,
@@ -149,6 +149,7 @@ class GuessOutcomes(Page):
             self.player.very_biased_outcome = None
 
         self.player.calculate_winnings()
+
 
 
 
