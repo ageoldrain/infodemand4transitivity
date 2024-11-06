@@ -74,6 +74,7 @@ class RevealCoinOutcome(Page):
             'subround_number': subround_number,
         }
 
+
 class GuessOutcomes(Page):
     form_model = 'player'
 
@@ -87,24 +88,38 @@ class GuessOutcomes(Page):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
-        # Prepare a list of coins with their corresponding field names
+        # Create the form instance bound to the player
+        form = self.get_form()
+
+        # Prepare a list of coins with their corresponding data
         coin_forms = []
         for coin in coins:
             coin_name = coin[0]  # 'fair', 'biased', etc.
             coin_display_name = coin[1]  # 'Fair', 'Biased', etc.
+
+            # Get the corresponding form field
             if coin_name == 'fair':
-                field_name = 'fair_outcome'
+                field = form['fair_outcome']
             elif coin_name == 'biased':
-                field_name = 'biased_outcome'
+                field = form['biased_outcome']
             elif coin_name == 'very biased':
-                field_name = 'very_biased_outcome'
+                field = form['very_biased_outcome']
             else:
-                field_name = None  # Should not happen
+                field = None  # Should not happen
+
+            # Extract necessary data from the form field
+            choices = field.field.choices
+            field_name = field.name
+            field_id_prefix = field.auto_id
+            field_value = field.value()
 
             coin_forms.append({
                 'coin_name': coin_name,
                 'coin_display_name': coin_display_name,
                 'field_name': field_name,
+                'field_value': field_value,
+                'choices': choices,
+                'field_id_prefix': field_id_prefix,
             })
 
         return {
@@ -124,6 +139,7 @@ class GuessOutcomes(Page):
             self.player.very_biased_outcome = None
 
         self.player.calculate_winnings()
+
 
 
 class Results(Page):
