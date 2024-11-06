@@ -8,7 +8,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_BLOCKS = 10
     NUM_SUBROUNDS_PER_BLOCK = 3
-    NUM_ROUNDS = NUM_BLOCKS * NUM_SUBROUNDS_PER_BLOCK
+    NUM_ROUNDS = NUM_BLOCKS * NUM_SUBROUNDS_PER_BLOCK  # 10 blocks * 3 subrounds = 30 rounds
 
     COIN_PAIRS = [
         ('fair', 'biased'),
@@ -25,9 +25,11 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     def creating_session(self):
         for player in self.get_players():
+            # Calculate block and subround numbers
             block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
             subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK
 
+            # At the start of each block (every 3 rounds), shuffle the coin pairs
             if subround_number == 0:
                 coin_pairs = C.COIN_PAIRS.copy()
                 random.shuffle(coin_pairs)
@@ -35,7 +37,9 @@ class Subsession(BaseSubsession):
             else:
                 coin_pairs = player.participant.vars[f'coin_pairs_block_{block_number}']
 
-            player.coin1, player.coin2 = coin_pairs[subround_number]
+            # Assign coins for the current subround
+            coin_pair = coin_pairs[subround_number]
+            player.coin1, player.coin2 = coin_pair
 
 class Group(BaseGroup):
     pass
@@ -91,14 +95,27 @@ class Player(BasePlayer):
     def calculate_winnings(self):
         # Calculate winnings for this subround
         round_winnings = cu(0)
-        if 'fair' in [self.coin1, self.coin2]:
-            if self.fair_outcome == self.coin1_result if self.coin1 == 'fair' else self.coin2_result:
+
+        # Check guesses and actual results for each coin
+        if self.coin1 == 'fair':
+            if self.fair_outcome == self.coin1_result:
                 round_winnings += cu(1)
-        if 'biased' in [self.coin1, self.coin2]:
-            if self.biased_outcome == self.coin1_result if self.coin1 == 'biased' else self.coin2_result:
+        elif self.coin2 == 'fair':
+            if self.fair_outcome == self.coin2_result:
                 round_winnings += cu(1)
-        if 'very biased' in [self.coin1, self.coin2]:
-            if self.very_biased_outcome == self.coin1_result if self.coin1 == 'very biased' else self.coin2_result:
+
+        if self.coin1 == 'biased':
+            if self.biased_outcome == self.coin1_result:
+                round_winnings += cu(1)
+        elif self.coin2 == 'biased':
+            if self.biased_outcome == self.coin2_result:
+                round_winnings += cu(1)
+
+        if self.coin1 == 'very biased':
+            if self.very_biased_outcome == self.coin1_result:
+                round_winnings += cu(1)
+        elif self.coin2 == 'very biased':
+            if self.very_biased_outcome == self.coin2_result:
                 round_winnings += cu(1)
 
         # Update total winnings
