@@ -1,0 +1,42 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">
+        Round {{ round_number }}: Please guess the outcomes of the following coins.
+    </h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center mb-3">
+            {% for coin in coin_forms %}
+                <div class="mx-2 text-center">
+                    <h3>{{ coin.coin_display_name }} Coin</h3>
+                    <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ coin.coin_display_name }}" class="coin-image mb-2">
+                    <div>
+                        {{ form[coin.field_name] }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if form.errors %}
+            <div class="alert alert-danger text-center">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-center">
+            {% next_button %}
+        </div>
+    </form>
+</div>
+
+<style>
+    .coin-image {
+        max-width: 150px;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
