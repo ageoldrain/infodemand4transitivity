@@ -26,7 +26,7 @@ class CoinChoice(Page):
     template_name = 'coin_flip/CoinChoice.html'
 
     def vars_for_template(self):
-        # Retrieve coin_order from participant.vars if it exists
+        # Prepare the coins with their display names
         coins = [
             (self.player.coin1, self.player.coin1.replace('_', ' ').title()),
             (self.player.coin2, self.player.coin2.replace('_', ' ').title())
@@ -34,7 +34,7 @@ class CoinChoice(Page):
         # Randomize coins and store the order
         random.shuffle(coins)
         self.participant.vars['coin_order'] = coins
-
+        
         # Get coin probabilities
         coin_probs = {
             coins[0][0]: C.COIN_PROBABILITIES[coins[0][0]],
