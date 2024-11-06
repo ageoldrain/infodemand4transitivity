@@ -24,13 +24,21 @@
                             <label class="btn btn-primary" for="{{ coin.field_id_prefix }}_{{ forloop.counter }}">{{ choice.1 }}</label>
                         {% endfor %}
                     </div>
+                    <!-- Include field error messages -->
+                    {% if form.errors %}
+                        {% if coin.field_name in form.errors %}
+                            {% for error in form.errors[coin.field_name] %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
 
-        {% if form.errors %}
+        {% if form.non_field_errors %}
             <div class="alert alert-danger text-center">
-                {{ form.errors }}
+                {{ form.non_field_errors }}
             </div>
         {% endif %}
 
