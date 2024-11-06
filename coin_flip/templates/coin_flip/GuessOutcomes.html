@@ -25,12 +25,10 @@
                         {% endfor %}
                     </div>
                     <!-- Include field error messages -->
-                    {% if form.errors %}
-                        {% if coin.field_name in form.errors %}
-                            {% for error in form.errors[coin.field_name] %}
-                                <div class="text-danger">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
+                    {% if coin.errors %}
+                        {% for error in coin.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
                     {% endif %}
                 </div>
             {% endfor %}
@@ -48,5 +46,25 @@
     </form>
 </div>
 
-
+<style>
+    /* Hide the default radio button */
+    .btn-check {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+        pointer-events: none;
+    }
+    /* Style the labels as buttons */
+    .btn-group .btn {
+        margin-right: 5px;
+    }
+    /* Active state styling */
+    .btn-check:checked + .btn {
+        background-color: #007bff;
+        color: #fff;
+    }
+    /* Adjust the last button's margin */
+    .btn-group .btn:last-child {
+        margin-right: 0;
+    }
+</style>
 {% endblock %}
