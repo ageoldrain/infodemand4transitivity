@@ -19,14 +19,13 @@
                 <div class="mx-2 text-center">
                     <h3>{{ coin.coin_display_name }} Coin</h3>
 
-                    <div>
-                        {% if coin.field_name == 'fair_outcome' %}
-                            {{ form.fair_outcome }}
-                        {% elif coin.field_name == 'biased_outcome' %}
-                            {{ form.biased_outcome }}
-                        {% elif coin.field_name == 'very_biased_outcome' %}
-                            {{ form.very_biased_outcome }}
-                        {% endif %}
+                    <div class="btn-group" role="group">
+                        {% with field=form[coin.field_name] %}
+                            {% for choice in field.field.choices %}
+                                <input type="radio" class="btn-check" name="{{ field.name }}" id="{{ field.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if field.value == choice.0 %}checked{% endif %}>
+                                <label class="btn btn-primary" for="{{ field.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
+                            {% endfor %}
+                        {% endwith %}
                     </div>
                 </div>
             {% endfor %}
@@ -44,5 +43,25 @@
     </form>
 </div>
 
-
+<style>
+    /* Hide the default radio button */
+    .btn-check {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+        pointer-events: none;
+    }
+    /* Style the labels as buttons */
+    .btn-group .btn {
+        margin-right: 5px;
+    }
+    /* Active state styling */
+    .btn-check:checked + .btn {
+        background-color: #007bff;
+        color: #fff;
+    }
+    /* Adjust the last button's margin */
+    .btn-group .btn:last-child {
+        margin-right: 0;
+    }
+</style>
 {% endblock %}
