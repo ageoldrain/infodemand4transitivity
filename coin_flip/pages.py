@@ -87,11 +87,11 @@ class GuessOutcomes(Page):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
-        # Prepare a list of coins with their corresponding field names
-        coin_forms = []
-
         # Create the form instance bound to the player
         form = self.get_form(self.player)
+
+        # Prepare a list of coins with their corresponding data
+        coin_forms = []
 
         # Manually collect the required data for each coin
         for coin in coins:
@@ -112,7 +112,7 @@ class GuessOutcomes(Page):
 
             # Extract necessary data from the form field
             choices = field.choices
-            field_value = field.value()
+            field_value = getattr(self.player, field_name)  # Corrected
             field_id_prefix = field_name  # Use field name as ID prefix
 
             coin_forms.append({
