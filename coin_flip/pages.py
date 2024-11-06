@@ -74,7 +74,6 @@ class RevealCoinOutcome(Page):
             'subround_number': subround_number,
         }
 
-
 class GuessOutcomes(Page):
     form_model = 'player'
 
@@ -96,7 +95,7 @@ class GuessOutcomes(Page):
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
         # Create the form instance bound to the player
-        form = self.get_form(instance=self.player)
+        form = self.get_form()
 
         # Prepare a list of coins with their corresponding form fields
         coin_forms = []
@@ -127,7 +126,6 @@ class GuessOutcomes(Page):
             'block_number': block_number,
             'subround_number': subround_number,
         }
-
 
     def before_next_page(self):
         self.player.calculate_winnings()
