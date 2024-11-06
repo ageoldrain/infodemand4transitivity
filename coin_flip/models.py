@@ -52,21 +52,24 @@ class Player(BasePlayer):
     # Player's coin choice
     coin_choice = models.StringField()
 
-    # Guessed outcomes for each coin
+    # Guessed outcomes for each coin (made optional with blank=True)
     fair_outcome = models.StringField(
         choices=['Heads', 'Tails'],
         label="Your guess for the Fair coin",
-        widget=widgets.RadioSelect
+        widget=widgets.RadioSelect,
+        blank=True
     )
     biased_outcome = models.StringField(
         choices=['Heads', 'Tails'],
         label="Your guess for the Biased coin",
-        widget=widgets.RadioSelect
+        widget=widgets.RadioSelect,
+        blank=True
     )
     very_biased_outcome = models.StringField(
         choices=['Heads', 'Tails'],
         label="Your guess for the Very Biased coin",
-        widget=widgets.RadioSelect
+        widget=widgets.RadioSelect,
+        blank=True
     )
 
     # Actual outcomes
