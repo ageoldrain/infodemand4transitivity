@@ -105,10 +105,10 @@ class GuessOutcomes(Page):
                 field = None  # Should not happen
 
             # Extract necessary data from the form field
-            choices = field.field.choices
+            choices = field.choices  # Corrected
             field_name = field.name
-            field_id_prefix = field.auto_id
-            field_value = field.value()
+            field_id_prefix = field.id_for_label  # Corrected
+            field_value = field.value()  # Remain the same
 
             coin_forms.append({
                 'coin_name': coin_name,
@@ -136,6 +136,7 @@ class GuessOutcomes(Page):
             self.player.very_biased_outcome = None
 
         self.player.calculate_winnings()
+
 
 class Results(Page):
     def is_displayed(self):
