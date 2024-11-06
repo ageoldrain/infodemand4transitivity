@@ -19,9 +19,9 @@
                     <h3>{{ coin.coin_display_name }} Coin</h3>
 
                     <div class="btn-group" role="group">
-                        {% for choice in coin.field.field.choices %}
-                            <input type="radio" class="btn-check" name="{{ coin.field.html_name }}" id="{{ coin.field.id_for_label }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if coin.field.value == choice.0 %}checked{% endif %} required>
-                            <label class="btn btn-primary" for="{{ coin.field.id_for_label }}_{{ forloop.counter }}">{{ choice.1 }}</label>
+                        {% for choice in coin.choices %}
+                            <input type="radio" class="btn-check" name="{{ coin.field_name }}" id="{{ coin.field_id_prefix }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if coin.field_value == choice.0 %}checked{% endif %} required>
+                            <label class="btn btn-primary" for="{{ coin.field_id_prefix }}_{{ forloop.counter }}">{{ choice.1 }}</label>
                         {% endfor %}
                     </div>
                 </div>
