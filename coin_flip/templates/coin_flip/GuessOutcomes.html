@@ -2,71 +2,24 @@
 {% load otree %}
 
 {% block content %}
-<div class="container">
-    <h2 class="text-center my-4">
-        This is round {{ block_number }}
-    </h2>
+<h2>This is round {{ block_number }}</h2>
 
-    <h3 class="text-center my-4">
-        This is subround {{ subround_number }} of round {{ block_number }}.
-        Please guess the outcomes of the coins for this subround.
-    </h3>
+<h3>
+    This is subround {{ subround_number }} of round {{ block_number }}.
+    Please guess the outcomes of the coins for this subround.
+</h3>
 
-    <form method="post">
-        <div class="d-flex justify-content-center mb-3">
-            {% for coin in coin_forms %}
-                <div class="mx-2 text-center">
-                    <h3>{{ coin.coin_display_name }} Coin</h3>
+<form method="post">
+    {{ formfield 'fair_outcome' }}
+    {{ formfield 'biased_outcome' }}
+    {{ formfield 'very_biased_outcome' }}
 
-                    <div class="btn-group" role="group">
-                        {% for choice in coin.choices %}
-                            <input type="radio" class="btn-check" name="{{ coin.field_name }}" id="{{ coin.field_id_prefix }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if coin.field_value == choice.0 %}checked{% endif %} required>
-                            <label class="btn btn-primary" for="{{ coin.field_id_prefix }}_{{ forloop.counter }}">{{ choice.1 }}</label>
-                        {% endfor %}
-                    </div>
-                    <!-- Include field error messages -->
-                    {% if coin.errors %}
-                        {% for error in coin.errors %}
-                            <div class="text-danger">{{ error }}</div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            {% endfor %}
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {{ form.errors }}
         </div>
+    {% endif %}
 
-        {% if non_field_errors %}
-            <div class="alert alert-danger text-center">
-                {% for error in non_field_errors %}
-                    {{ error }}<br>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <div class="d-flex justify-content-center">
-            {% next_button %}
-        </div>
-    </form>
-</div>
-
-<style>
-    /* Hide the default radio button */
-    .btn-check {
-        position: absolute;
-        clip: rect(0, 0, 0, 0);
-        pointer-events: none;
-    }
-    /* Style the labels as buttons */
-    .btn-group .btn {
-        margin-right: 5px;
-    }
-    /* Active state styling */
-    .btn-check:checked + .btn {
-        background-color: #007bff;
-        color: #fff;
-    }
-    /* Adjust the last button's margin */
-    .btn-group .btn:last-child {
-        margin-right: 0;
-    }
-</style>
+    {% next_button %}
+</form>
 {% endblock %}
