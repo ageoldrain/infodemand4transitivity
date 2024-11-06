@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
     <h2 class="text-center my-4">
-        Round {{ round_number }}: Choose a coin to reveal.
+        Round {{ block_number }}, Subround {{ subround_number }}: Choose a coin to reveal its outcome.
     </h2>
 
     <form method="post">
@@ -14,13 +14,15 @@
             <label class="btn btn-primary mx-2 coin-label">
                 <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.0.0 }}" class="coin-input" required>
                 <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ coins.0.1 }}" class="coin-image">
-                <div>{{ coins.0.1 }}</div>
+                <div>{{ coins.0.1 }} Coin</div>
+                <div>Probability of Heads: {{ prob_coin0 }}</div>
             </label>
             <!-- Second Coin -->
             <label class="btn btn-primary mx-2 coin-label">
                 <input type="radio" name="{{ form.coin_choice.name }}" value="{{ coins.1.0 }}" class="coin-input" required>
                 <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ coins.1.1 }}" class="coin-image">
-                <div>{{ coins.1.1 }}</div>
+                <div>{{ coins.1.1 }} Coin</div>
+                <div>Probability of Heads: {{ prob_coin1 }}</div>
             </label>
         </div>
 
@@ -34,31 +36,13 @@
             {% next_button %}
         </div>
     </form>
-
-    <!-- Instructions -->
-    <div class="text-center my-3">
-        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#instructions">
-            Review Instructions
-        </button>
-    </div>
-
-    <div id="instructions" class="collapse">
-        <div class="card card-body">
-            <p>
-                The {{ coins.0.1 }} coin has a probability of {{ prob_coin1 }} heads.
-            </p>
-            <p>
-                The {{ coins.1.1 }} coin has a probability of {{ prob_coin2 }} heads.
-            </p>
-            <!-- Additional instructions -->
-        </div>
-    </div>
 </div>
 
 <style>
     .coin-label {
         cursor: pointer;
         transition: transform 0.2s;
+        text-align: center;
     }
     .coin-input {
         display: none;
@@ -71,7 +55,7 @@
         transform: scale(1.05);
     }
     .coin-image {
-        max-width: 200px;
+        max-width: 150px;
         transition: border 0.2s, transform 0.2s;
     }
 </style>
