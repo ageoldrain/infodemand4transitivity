@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
     <h2 class="text-center my-4">
-        This is round number {{ round_number }}. Would you like to choose to find out the outcome of the flip of the {{ coins.0.1 }} or of the {{ coins.1.1 }} coin?
+        Round {{ round_number }}: Choose a coin to reveal.
     </h2>
 
     <form method="post">
@@ -35,7 +35,7 @@
         </div>
     </form>
 
-    <!-- Review Instructions Accordion -->
+    <!-- Instructions -->
     <div class="text-center my-3">
         <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#instructions">
             Review Instructions
@@ -44,25 +44,17 @@
 
     <div id="instructions" class="collapse">
         <div class="card card-body">
-            <!-- Instructions Content -->
             <p>
-                You are now asked to choose to reveal the outcome of either the {{ coins.0.1 }} coin or the {{ coins.1.1 }} coin.
+                The {{ coins.0.1 }} coin has a probability of {{ prob_coin1 }} heads.
             </p>
-
             <p>
-                The {{ coins.0.1 }} coin has a probability of {{ prob_coin0 }} heads.
+                The {{ coins.1.1 }} coin has a probability of {{ prob_coin2 }} heads.
             </p>
-
-            <p>
-                The {{ coins.1.1 }} coin has a probability of {{ prob_coin1 }} heads.
-            </p>
-
-            <!-- Rest of your instructions -->
+            <!-- Additional instructions -->
         </div>
     </div>
 </div>
 
-<!-- Your styles and scripts -->
 <style>
     .coin-label {
         cursor: pointer;
@@ -83,21 +75,4 @@
         transition: border 0.2s, transform 0.2s;
     }
 </style>
-
-<script>
-    // Accordion toggle for instructions
-    document.querySelector('.btn-info').addEventListener('click', () => {
-        document.getElementById('instructions').classList.toggle('show');
-    });
-
-    // Highlight the selected label when chosen
-    document.querySelectorAll('.coin-label').forEach(label => {
-        label.addEventListener('click', () => {
-            document.querySelectorAll('.coin-label').forEach(lbl => {
-                lbl.classList.remove('active');
-            });
-            label.classList.add('active');
-        });
-    });
-</script>
 {% endblock %}
