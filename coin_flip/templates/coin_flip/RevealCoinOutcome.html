@@ -1,14 +1,28 @@
 {% extends "global/Page.html" %}
 {% load otree %}
+{% load static %}
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">This is round number {{ round_number }}. The outcome for this round is:</h2>
-    
-    <p class="text-center mb-4">The result of your chosen coin is: <strong>{{ chosen_coin_result }}</strong></p>
-    
-    <div class="d-flex justify-content-center">
+    <h2 class="text-center my-4">
+        Round {{ block_number }}, Subround {{ subround_number }}: Coin Outcome
+    </h2>
+
+    <div class="text-center">
+        <h3>You chose the {{ chosen_coin }} coin.</h3>
+        <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ chosen_coin }}" class="coin-image mb-2">
+        <p>The outcome is: <strong>{{ chosen_coin_result }}</strong></p>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
         {% next_button %}
     </div>
 </div>
+
+<style>
+    .coin-image {
+        max-width: 150px;
+        margin-bottom: 10px;
+    }
+</style>
 {% endblock %}
