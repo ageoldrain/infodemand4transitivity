@@ -5,27 +5,26 @@
 {% block content %}
 <div class="container">
     <h2 class="text-center my-4">
-        Round {{ round_number }}: Guess the outcomes of both coins.
+        Round {{ block_number }}, Subround {{ subround_number }}: Guess the outcomes of the coins.
     </h2>
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
-            <!-- First Coin -->
-            <div class="mx-2 text-center">
-                <h3>{{ coins.0.1 }} Coin</h3>
-                <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ coins.0.1 }}" class="coin-image mb-2">
-                <div>
-                    {{ form.guess_for_coin1 }}
+            {% for coin in coin_forms %}
+                <div class="mx-2 text-center">
+                    <h3>{{ coin.coin_display_name }} Coin</h3>
+                    <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ coin.coin_display_name }}" class="coin-image mb-2">
+                    <div>
+                        {% if coin.field_name == 'fair_outcome' %}
+                            {{ form.fair_outcome }}
+                        {% elif coin.field_name == 'biased_outcome' %}
+                            {{ form.biased_outcome }}
+                        {% elif coin.field_name == 'very_biased_outcome' %}
+                            {{ form.very_biased_outcome }}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-            <!-- Second Coin -->
-            <div class="mx-2 text-center">
-                <h3>{{ coins.1.1 }} Coin</h3>
-                <img src="{% static 'coin_flip/CoinImage.png' %}" alt="{{ coins.1.1 }}" class="coin-image mb-2">
-                <div>
-                    {{ form.guess_for_coin2 }}
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         {% if form.errors %}
