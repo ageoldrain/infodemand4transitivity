@@ -8,7 +8,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_BLOCKS = 10
     NUM_SUBROUNDS_PER_BLOCK = 3
-    NUM_ROUNDS = NUM_BLOCKS * NUM_SUBROUNDS_PER_BLOCK  # 10 blocks * 3 subrounds = 30 rounds
+    NUM_ROUNDS = C.NUM_BLOCKS * C.NUM_SUBROUNDS_PER_BLOCK  # 10 blocks * 3 subrounds = 30 rounds
 
     COIN_PAIRS = [
         ('fair', 'biased'),
@@ -50,26 +50,34 @@ class Player(BasePlayer):
     coin2 = models.StringField()
 
     # Player's coin choice
-    coin_choice = models.StringField()
+    coin_choice = models.StringField(
+        choices=[
+            ['fair', 'Fair Coin'],
+            ['biased', 'Biased Coin'],
+            ['very biased', 'Very Biased Coin'],
+        ],
+        label="Which coin would you like to flip?",
+        widget=widgets.RadioSelect,
+    )
 
     # Guessed outcomes for each coin (made optional with blank=True)
     fair_outcome = models.StringField(
-        choices=['Heads', 'Tails'],
+        choices=[['Heads', 'Heads'], ['Tails', 'Tails']],
         label="Your guess for the Fair coin",
         widget=widgets.RadioSelect,
-        blank=True
+        blank=True  # Allow the field to be left blank when not relevant
     )
     biased_outcome = models.StringField(
-        choices=['Heads', 'Tails'],
+        choices=[['Heads', 'Heads'], ['Tails', 'Tails']],
         label="Your guess for the Biased coin",
         widget=widgets.RadioSelect,
-        blank=True
+        blank=True  # Allow the field to be left blank when not relevant
     )
     very_biased_outcome = models.StringField(
-        choices=['Heads', 'Tails'],
+        choices=[['Heads', 'Heads'], ['Tails', 'Tails']],
         label="Your guess for the Very Biased coin",
         widget=widgets.RadioSelect,
-        blank=True
+        blank=True  # Allow the field to be left blank when not relevant
     )
 
     # Actual outcomes
@@ -100,25 +108,16 @@ class Player(BasePlayer):
         round_winnings = cu(0)
 
         # Check guesses and actual results for each coin
-        if self.coin1 == 'fair':
-            if self.fair_outcome == self.coin1_result:
-                round_winnings += cu(1)
-        elif self.coin2 == 'fair':
-            if self.fair_outcome == self.coin2_result:
+        if self.coin1 == 'fair' or self.coin2 == 'fair':
+            if self.fair_outcome == (self.coin1_result if self.coin1 == 'fair' else self.coin2_result):
                 round_winnings += cu(1)
 
-        if self.coin1 == 'biased':
-            if self.biased_outcome == self.coin1_result:
-                round_winnings += cu(1)
-        elif self.coin2 == 'biased':
-            if self.biased_outcome == self.coin2_result:
+        if self.coin1 == 'biased' or self.coin2 == 'biased':
+            if self.biased_outcome == (self.coin1_result if self.coin1 == 'biased' else self.coin2_result):
                 round_winnings += cu(1)
 
-        if self.coin1 == 'very biased':
-            if self.very_biased_outcome == self.coin1_result:
-                round_winnings += cu(1)
-        elif self.coin2 == 'very biased':
-            if self.very_biased_outcome == self.coin2_result:
+        if self.coin1 == 'very biased' or self.coin2 == 'very biased':
+            if self.very_biased_outcome == (self.coin1_result if self.coin1 == 'very biased' else self.coin2_result):
                 round_winnings += cu(1)
 
         # Update total winnings
