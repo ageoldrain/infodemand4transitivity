@@ -10,9 +10,20 @@
 </h3>
 
 <form method="post">
-    {{ formfield 'fair_outcome' }}
-    {{ formfield 'biased_outcome' }}
-    {{ formfield 'very_biased_outcome' }}
+    <div class="row">
+        {% for coin in coins %}
+            <div class="col">
+                <h3>{{ coin.1 }} Coin</h3>
+                {% if coin.0 == 'fair' %}
+                    {{ formfield 'fair_outcome' }}
+                {% elif coin.0 == 'biased' %}
+                    {{ formfield 'biased_outcome' }}
+                {% elif coin.0 == 'very biased' %}
+                    {{ formfield 'very_biased_outcome' }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 
     {% if form.errors %}
         <div class="alert alert-danger">
