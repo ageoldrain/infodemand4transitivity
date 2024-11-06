@@ -18,14 +18,23 @@
             {% for coin in coin_forms %}
                 <div class="mx-2 text-center">
                     <h3>{{ coin.coin_display_name }} Coin</h3>
-
                     <div class="btn-group" role="group">
-                        {% with field=form[coin.field_name] %}
-                            {% for choice in field.field.choices %}
-                                <input type="radio" class="btn-check" name="{{ field.name }}" id="{{ field.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if field.value == choice.0 %}checked{% endif %}>
-                                <label class="btn btn-primary" for="{{ field.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
+                        {% if coin.field_name == 'fair_outcome' %}
+                            {% for choice in form.fair_outcome.field.choices %}
+                                <input type="radio" class="btn-check" name="{{ form.fair_outcome.name }}" id="{{ form.fair_outcome.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if form.fair_outcome.value == choice.0 %}checked{% endif %}>
+                                <label class="btn btn-primary" for="{{ form.fair_outcome.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
                             {% endfor %}
-                        {% endwith %}
+                        {% elif coin.field_name == 'biased_outcome' %}
+                            {% for choice in form.biased_outcome.field.choices %}
+                                <input type="radio" class="btn-check" name="{{ form.biased_outcome.name }}" id="{{ form.biased_outcome.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if form.biased_outcome.value == choice.0 %}checked{% endif %}>
+                                <label class="btn btn-primary" for="{{ form.biased_outcome.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
+                            {% endfor %}
+                        {% elif coin.field_name == 'very_biased_outcome' %}
+                            {% for choice in form.very_biased_outcome.field.choices %}
+                                <input type="radio" class="btn-check" name="{{ form.very_biased_outcome.name }}" id="{{ form.very_biased_outcome.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if form.very_biased_outcome.value == choice.0 %}checked{% endif %}>
+                                <label class="btn btn-primary" for="{{ form.very_biased_outcome.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
