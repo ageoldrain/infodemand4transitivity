@@ -19,22 +19,10 @@
                     <h3>{{ coin.coin_display_name }} Coin</h3>
 
                     <div class="btn-group" role="group">
-                        {% if coin.coin_name == 'fair' %}
-                            {% for choice in form.fair_outcome.field.choices %}
-                                <input type="radio" class="btn-check" name="{{ form.fair_outcome.name }}" id="{{ form.fair_outcome.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if form.fair_outcome.value == choice.0 %}checked{% endif %} required>
-                                <label class="btn btn-primary" for="{{ form.fair_outcome.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
-                            {% endfor %}
-                        {% elif coin.coin_name == 'biased' %}
-                            {% for choice in form.biased_outcome.field.choices %}
-                                <input type="radio" class="btn-check" name="{{ form.biased_outcome.name }}" id="{{ form.biased_outcome.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if form.biased_outcome.value == choice.0 %}checked{% endif %} required>
-                                <label class="btn btn-primary" for="{{ form.biased_outcome.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
-                            {% endfor %}
-                        {% elif coin.coin_name == 'very biased' %}
-                            {% for choice in form.very_biased_outcome.field.choices %}
-                                <input type="radio" class="btn-check" name="{{ form.very_biased_outcome.name }}" id="{{ form.very_biased_outcome.name }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if form.very_biased_outcome.value == choice.0 %}checked{% endif %} required>
-                                <label class="btn btn-primary" for="{{ form.very_biased_outcome.name }}_{{ forloop.counter }}">{{ choice.1 }}</label>
-                            {% endfor %}
-                        {% endif %}
+                        {% for choice in coin.field.field.choices %}
+                            <input type="radio" class="btn-check" name="{{ coin.field.html_name }}" id="{{ coin.field.id_for_label }}_{{ forloop.counter }}" value="{{ choice.0 }}" {% if coin.field.value == choice.0 %}checked{% endif %} required>
+                            <label class="btn btn-primary" for="{{ coin.field.id_for_label }}_{{ forloop.counter }}">{{ choice.1 }}</label>
+                        {% endfor %}
                     </div>
                 </div>
             {% endfor %}
