@@ -76,66 +76,15 @@ class RevealCoinOutcome(Page):
 
 class GuessOutcomes(Page):
     form_model = 'player'
-
-    def get_form_fields(self):
-        # Include all outcome fields
-        return ['fair_outcome', 'biased_outcome', 'very_biased_outcome']
+    form_fields = ['fair_outcome', 'biased_outcome', 'very_biased_outcome']
 
     def vars_for_template(self):
-        coins = self.participant.vars['coin_order']
-
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
-        # Create the form instance bound to the player
-        form = self.get_form(self.player)
-
-        # Prepare a list of coins with their corresponding data
-        coin_forms = []
-
-        # Manually collect the required data for each coin
-        for coin in coins:
-            coin_name = coin[0]  # 'fair', 'biased', etc.
-            coin_display_name = coin[1]  # 'Fair', 'Biased', etc.
-
-            if coin_name == 'fair':
-                field_name = 'fair_outcome'
-            elif coin_name == 'biased':
-                field_name = 'biased_outcome'
-            elif coin_name == 'very biased':
-                field_name = 'very_biased_outcome'
-            else:
-                field_name = None  # Should not happen
-
-            # Get the form field
-            field = form[field_name]
-
-            # Extract necessary data from the form field
-            choices = field.choices
-            field_value = self.player.field_maybe_none(field_name)
-            field_id_prefix = field_name  # Use field name as ID prefix
-
-            # Get field errors (returns a list of errors)
-            field_errors = form.errors.get(field_name, [])
-
-            coin_forms.append({
-                'coin_name': coin_name,
-                'coin_display_name': coin_display_name,
-                'field_name': field_name,
-                'field_value': field_value,
-                'choices': choices,
-                'field_id_prefix': field_id_prefix,
-                'errors': field_errors,  # Add errors to the coin_forms
-            })
-
-        # Collect non-field errors from form.errors
-        non_field_errors = form.errors.get('__all__', [])
-
         return {
-            'coin_forms': coin_forms,
             'block_number': block_number,
             'subround_number': subround_number,
-            'non_field_errors': non_field_errors,  # Pass non-field errors
         }
 
     def before_next_page(self):
@@ -149,9 +98,6 @@ class GuessOutcomes(Page):
             self.player.very_biased_outcome = None
 
         self.player.calculate_winnings()
-
-
-
 
 class Results(Page):
     def is_displayed(self):
