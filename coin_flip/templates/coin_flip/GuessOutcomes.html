@@ -2,35 +2,41 @@
 {% load otree %}
 
 {% block content %}
-<h2>This is round {{ block_number }}</h2>
+<div class="container">
+    <h2 class="text-center my-4">This is round {{ block_number }}</h2>
 
-<h3>
-    This is subround {{ subround_number }} of round {{ block_number }}.
-    Please guess the outcomes of the coins for this subround.
-</h3>
+    <h3 class="text-center my-4">
+        This is subround {{ subround_number }} of round {{ block_number }}.
+        Please guess the outcomes of the coins for this subround.
+    </h3>
 
-<form method="post">
-    <div class="row">
-        {% for coin in coins %}
-            <div class="col">
-                <h3>{{ coin.1 }} Coin</h3>
-                {% if coin.0 == 'fair' %}
-                    {{ formfield 'fair_outcome' }}
-                {% elif coin.0 == 'biased' %}
-                    {{ formfield 'biased_outcome' }}
-                {% elif coin.0 == 'very biased' %}
-                    {{ formfield 'very_biased_outcome' }}
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
+    <form method="post">
+        <div class="d-flex justify-content-center mb-3">
+            {% for coin in coins %}
+                <div class="mx-2 text-center">
+                    <h3>{{ coin.1 }} Coin</h3>
 
-    {% if form.errors %}
-        <div class="alert alert-danger">
-            {{ form.errors }}
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="{{ coin.0 }}_outcome" value="Heads" id="{{ coin.0 }}_heads" required>
+                        <label class="form-check-label" for="{{ coin.0 }}_heads">Heads</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="{{ coin.0 }}_outcome" value="Tails" id="{{ coin.0 }}_tails" required>
+                        <label class="form-check-label" for="{{ coin.0 }}_tails">Tails</label>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endif %}
 
-    {% next_button %}
-</form>
+        {% if form.errors %}
+            <div class="alert alert-danger text-center">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-center">
+            {% next_button %}
+        </div>
+    </form>
+</div>
 {% endblock %}
