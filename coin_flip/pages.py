@@ -74,20 +74,12 @@ class RevealCoinOutcome(Page):
             'subround_number': subround_number,
         }
 
-
 class GuessOutcomes(Page):
     form_model = 'player'
 
     def get_form_fields(self):
-        coins = [self.player.coin1, self.player.coin2]
-        form_fields = []
-        if 'fair' in coins:
-            form_fields.append('fair_outcome')
-        if 'biased' in coins:
-            form_fields.append('biased_outcome')
-        if 'very biased' in coins:
-            form_fields.append('very_biased_outcome')
-        return form_fields
+        # Include all outcome fields
+        return ['fair_outcome', 'biased_outcome', 'very_biased_outcome']
 
     def vars_for_template(self):
         coins = self.participant.vars['coin_order']
@@ -116,16 +108,22 @@ class GuessOutcomes(Page):
             })
 
         return {
-            'coins': coins,
             'coin_forms': coin_forms,
-            'round_number': self.round_number,
             'block_number': block_number,
             'subround_number': subround_number,
         }
 
     def before_next_page(self):
-        self.player.calculate_winnings()
+        # Clear the fields that are not relevant in this subround
+        coins_in_subround = [self.player.coin1, self.player.coin2]
+        if 'fair' not in coins_in_subround:
+            self.player.fair_outcome = None
+        if 'biased' not in coins_in_subround:
+            self.player.biased_outcome = None
+        if 'very biased' not in coins_in_subround:
+            self.player.very_biased_outcome = None
 
+        self.player.calculate_winnings()
 
 class Results(Page):
     def is_displayed(self):
