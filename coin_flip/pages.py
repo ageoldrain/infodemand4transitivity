@@ -20,6 +20,8 @@ class Introduction2(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+# pages.py
+
 class CoinChoice(Page):
     form_model = 'player'
     form_fields = ['coin_choice']
@@ -35,15 +37,14 @@ class CoinChoice(Page):
         self.participant.vars['coin_order'] = coins  # For use in templates
 
         # Get coin probabilities
-        p_fair = C.COIN_PROBABILITIES.get('fair')
-        p_biased = C.COIN_PROBABILITIES.get('biased')
-        p_very_biased = C.COIN_PROBABILITIES.get('very biased')
-
-        # Prepare probabilities for coins in this round
         coin_probs = {}
         for coin in [self.player.coin1, self.player.coin2]:
-            coin_key = coin.replace(' ', '_')
             coin_probs[coin] = C.COIN_PROBABILITIES[coin]
+
+        # Prepare probabilities for coins in this round
+        # Since we can't access coin_probs[coins.0.0] in the template, we pass the probabilities directly
+        prob_coin0 = coin_probs[coins[0][0]]
+        prob_coin1 = coin_probs[coins[1][0]]
 
         # Calculate block and subround numbers
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
@@ -51,17 +52,16 @@ class CoinChoice(Page):
 
         return {
             'coins': coins,
-            'coin_probs': coin_probs,
+            'prob_coin0': prob_coin0,
+            'prob_coin1': prob_coin1,
             'round_number': self.round_number,
             'block_number': block_number,
             'subround_number': subround_number,
-            'p_fair': p_fair,
-            'p_biased': p_biased,
-            'p_very_biased': p_very_biased,
         }
 
     def before_next_page(self):
         self.player.flip_coins()
+
 
 class RevealCoinOutcome(Page):
     def vars_for_template(self):
