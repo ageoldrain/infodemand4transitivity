@@ -2,6 +2,7 @@
 
 from otree.api import Page
 from .models import C
+import random
 
 class Introduction(Page):
     def is_displayed(self):
