@@ -1,5 +1,3 @@
-# pages.py
-
 from otree.api import Page
 from .models import C
 import random
@@ -74,7 +72,6 @@ class RevealCoinOutcome(Page):
             'subround_number': subround_number,
         }
 
-
 class GuessOutcomes(Page):
     form_model = 'player'
 
@@ -89,7 +86,7 @@ class GuessOutcomes(Page):
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
         # Create the form instance bound to the player
-        form = self.get_form()
+        form = self.get_form(self.player)  # Pass 'instance' as a positional argument
 
         # Prepare a list of coins with their corresponding data
         coin_forms = []
@@ -139,8 +136,6 @@ class GuessOutcomes(Page):
             self.player.very_biased_outcome = None
 
         self.player.calculate_winnings()
-
-
 
 class Results(Page):
     def is_displayed(self):
