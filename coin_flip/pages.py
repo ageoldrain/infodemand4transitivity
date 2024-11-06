@@ -1,3 +1,5 @@
+# pages.py
+
 from otree.api import Page
 from .models import C
 import random
@@ -85,30 +87,33 @@ class GuessOutcomes(Page):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
-        # Create the form instance bound to the player
-        form = self.get_form(self.player)  # Pass 'instance' as a positional argument
-
-        # Prepare a list of coins with their corresponding data
+        # Prepare a list of coins with their corresponding field names
         coin_forms = []
+
+        # Create the form instance bound to the player
+        form = self.get_form(self.player)
+
+        # Manually collect the required data for each coin
         for coin in coins:
             coin_name = coin[0]  # 'fair', 'biased', etc.
             coin_display_name = coin[1]  # 'Fair', 'Biased', etc.
 
-            # Get the corresponding form field
             if coin_name == 'fair':
-                field = form['fair_outcome']
+                field_name = 'fair_outcome'
             elif coin_name == 'biased':
-                field = form['biased_outcome']
+                field_name = 'biased_outcome'
             elif coin_name == 'very biased':
-                field = form['very_biased_outcome']
+                field_name = 'very_biased_outcome'
             else:
-                field = None  # Should not happen
+                field_name = None  # Should not happen
+
+            # Get the form field
+            field = form[field_name]
 
             # Extract necessary data from the form field
-            choices = field.choices  # Corrected
-            field_name = field.name
-            field_id_prefix = field.id_for_label  # Corrected
-            field_value = field.value()  # Remain the same
+            choices = field.choices
+            field_value = field.value()
+            field_id_prefix = field_name  # Use field name as ID prefix
 
             coin_forms.append({
                 'coin_name': coin_name,
@@ -136,7 +141,6 @@ class GuessOutcomes(Page):
             self.player.very_biased_outcome = None
 
         self.player.calculate_winnings()
-
 
 class Results(Page):
     def is_displayed(self):
