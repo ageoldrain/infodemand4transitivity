@@ -2,13 +2,11 @@
 {% load otree %}
 
 {% block content %}
-{% if block_number > 2 %}
 <div class="container">
-    <h2 class="text-center my-4">Beginning Round {{ block_number|floatformat:-0|int|sub:2 }}</h2>
+    <h2 class="text-center my-4">Beginning Round {{ block_number }}</h2>
     
     <div class="d-flex justify-content-center">
         {% next_button %}
     </div>
 </div>
-{% endif %}
 {% endblock %}
