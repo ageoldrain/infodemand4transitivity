@@ -5,18 +5,20 @@
 {% block content %}
 <div class="container">
     <h2 class="text-center my-4">
-        This is round {{ block_number }}
+        {% if is_practice %}
+            <span style="color: red;">Practice Block {{ block_number }}</span>
+        {% else %}
+            Round {{ block_number }}
+        {% endif %}
     </h2>
 
     <h3 class="text-center my-4">
-        This is subround number {{ subround_number }} of round {{ block_number }}
+        This is subround number {{ subround_number }} of block {{ block_number }}.
     </h3>
 
-    
     <h3 class="text-center my-4">
         The outcome of which coin would you like to reveal?
     </h3>
-
 
     <form method="post">
         <div class="d-flex justify-content-center mb-3">
@@ -47,33 +49,32 @@
         </div>
     </form>
 </div>
+
 <!-- Review Instructions Section -->
 <div class="accordion">Review Instructions</div>
 <div class="panel">
     <p>
-        The experiment proceeds in rounds. There will be ten rounds in total. 
+        The experiment proceeds in rounds. There will be ten rounds in total, preceded by two practice blocks. 
     </p>
 
     <p> 
         Each round has three subrounds. In each subround, two coins will be flipped. You will <b>not</b> be informed of their outcomes automatically.
     </p>  
 
-       <p> 
+    <p> 
         Each subround has two questions. First, you will be given the option to <b>find out the outcome of one of the two coins</b>. The first question will ask you which coin you'd like to reveal. Once you choose the coin, the outcome will be revealed to you on the next page. 
         After that, you will be asked to guess the outcome of <b>both</b> coins.
-
-        </p>
+    </p>
     <p>
         Each coin is "worth" $1. If you guessed correctly in the second question of a subround, you will receive $2, $1 for guessing each coin correctly. If not, you will receive $0. You <b>must guess the outcome of both coins correctly to receive the payment.</b> Guessing only one of the two coins correctly is not enough.
-        </p>
+    </p>
 
-        <p>
-            You will not see whether you won or not immediately. Your winnings will be revealed only at the end of the 10 rounds.
-        </p>
-        <p>
-            This process will continue for 10 rounds. The experiment will end after you complete all 10 rounds.
-        </p>
-    </div>
+    <p>
+        You will not see whether you won or not immediately. Your winnings will be revealed only at the end of the 10 rounds.
+    </p>
+    <p>
+        This process will continue for 10 rounds after the practice blocks. The experiment will end after you complete all the rounds.
+    </p>
 </div>
 
 <style>
