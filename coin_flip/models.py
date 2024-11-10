@@ -1,5 +1,3 @@
-# models.py
-
 from otree.api import *
 import random
 
@@ -41,6 +39,9 @@ class Subsession(BaseSubsession):
             coin_pair = coin_pairs[subround_number]
             player.coin1, player.coin2 = coin_pair
 
+            # Store the position of the coins for the current subround
+            player.coin_position = f'{coin_pair[0]}_{coin_pair[1]}'
+
 class Group(BaseGroup):
     pass
 
@@ -48,6 +49,9 @@ class Player(BasePlayer):
     # Coins for the current subround
     coin1 = models.StringField()
     coin2 = models.StringField()
+
+    # Position of the coins for the current subround
+    coin_position = models.StringField()
 
     # Player's coin choice
     coin_choice = models.StringField()
