@@ -3,10 +3,16 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">This is round {{ block_number }}</h2>
+    <h2 class="text-center my-4">
+        {% if is_practice %}
+            <span style="color: red;">Practice Block {{ block_number }}</span>
+        {% else %}
+            Round {{ block_number }}
+        {% endif %}
+    </h2>
 
     <h3 class="text-center my-4">
-        This is subround {{ subround_number }} of round {{ block_number }}.
+        This is subround {{ subround_number }} of block {{ block_number }}.
     </h3>
     <h3 class="text-center my-4">
         Please guess the outcomes of the coins for this subround.
@@ -19,32 +25,24 @@
                     <h3>{{ coin.1 }} Coin</h3>
 
                     {% if coin.0 == "fair" %}
-                        <label class="btn btn-primary mx-2">
-                            <input type="radio" class="form-check-input" name="fair_outcome" value="Heads" id="fair_heads" required> Heads
-                        </label>
-                        <label class="btn btn-primary mx-2">
-                            <input type="radio" class="form-check-input" name="fair_outcome" value="Tails" id="fair_tails" required> Tails
-                        </label>
+                        <input type="radio" class="btn-check" name="fair_outcome" value="Heads" id="fair_heads" required>
+                        <label class="btn btn-primary" for="fair_heads">Heads</label>
+                        <input type="radio" class="btn-check" name="fair_outcome" value="Tails" id="fair_tails" required>
+                        <label class="btn btn-primary" for="fair_tails">Tails</label>
                     {% elif coin.0 == "biased" %}
-                        <label class="btn btn-primary mx-2">
-                            <input type="radio" class="form-check-input" name="biased_outcome" value="Heads" id="biased_heads" required> Heads
-                        </label>
-                        <label class="btn btn-primary mx-2">
-                            <input type="radio" class="form-check-input" name="biased_outcome" value="Tails" id="biased_tails" required> Tails
-                        </label>
+                        <input type="radio" class="btn-check" name="biased_outcome" value="Heads" id="biased_heads" required>
+                        <label class="btn btn-primary" for="biased_heads">Heads</label>
+                        <input type="radio" class="btn-check" name="biased_outcome" value="Tails" id="biased_tails" required>
+                        <label class="btn btn-primary" for="biased_tails">Tails</label>
                     {% elif coin.0 == "very biased" %}
-                        <label class="btn btn-primary mx-2">
-                            <input type="radio" class="form-check-input" name="very_biased_outcome" value="Heads" id="very_biased_heads" required> Heads
-                        </label>
-                        <label class="btn btn-primary mx-2">
-                            <input type="radio" class="form-check-input" name="very_biased_outcome" value="Tails" id="very_biased_tails" required> Tails
-                        </label>
+                        <input type="radio" class="btn-check" name="very_biased_outcome" value="Heads" id="very_biased_heads" required>
+                        <label class="btn btn-primary" for="very_biased_heads">Heads</label>
+                        <input type="radio" class="btn-check" name="very_biased_outcome" value="Tails" id="very_biased_tails" required>
+                        <label class="btn btn-primary" for="very_biased_tails">Tails</label>
                     {% endif %}
                 </div>
             {% endfor %}
         </div>
-
-
 
         {% if form.errors %}
             <div class="alert alert-danger text-center">
@@ -57,105 +55,4 @@
         </div>
     </form>
 </div>
-
-<!-- Review Instructions Section -->
-<div class="accordion">Review Instructions</div>
-<div class="panel">
-    <p>
-        The experiment proceeds in rounds. There will be ten rounds in total. 
-    </p>
-
-    <p> 
-        Each round has three subrounds. In each subround, two coins will be flipped. You will <b>not</b> be informed of their outcomes automatically.
-    </p>  
-
-       <p> 
-        Each subround has two questions. First, you will be given the option to <b>find out the outcome of one of the two coins</b>. The first question will ask you which coin you'd like to reveal. Once you choose the coin, the outcome will be revealed to you on the next page. 
-        After that, you will be asked to guess the outcome of <b>both</b> coins.
-
-        </p>
-    <p>
-        Each coin is "worth" $1. If you guessed correctly in the second question of a subround, you will receive $2, $1 for guessing each coin correctly. If not, you will receive $0. You <b>must guess the outcome of both coins correctly to receive the payment.</b> Guessing only one of the two coins correctly is not enough.
-        </p>
-
-        <p>
-            You will not see whether you won or not immediately. Your winnings will be revealed only at the end of the 10 rounds.
-        </p>
-        <p>
-            This process will continue for 10 rounds. The experiment will end after you complete all 10 rounds.
-        </p>
-    </div>
-</div>
-
-<style>
-    .coin-label {
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
-    .coin-input {
-        display: none;
-    }
-    .coin-input:checked + .coin-image {
-        border: 4px solid gold;
-        border-radius: 10px;
-    }
-    .coin-label:hover .coin-image {
-        transform: scale(1.05);
-    }
-    .coin-image {
-        max-width: 200px;
-        transition: border 0.2s, transform 0.2s;
-    }
-
-    .accordion {
-        background-color: #eee;
-        color: #444;
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 15px;
-        transition: 0.4s;
-        margin-top: 20px;
-    }
-
-    .active, .accordion:hover {
-        background-color: #ccc;
-    }
-
-    .panel {
-        padding: 0 18px;
-        display: none;
-        background-color: white;
-        overflow: hidden;
-    }
-</style>
-
-<script>
-    // Highlight the selected coin
-    document.querySelectorAll('.coin-label').forEach(label => {
-        label.addEventListener('click', () => {
-            document.querySelectorAll('.coin-label').forEach(lbl => {
-                lbl.classList.remove('active');
-            });
-            label.classList.add('active');
-        });
-    });
-
-    // Accordion functionality for instructions
-    var acc = document.getElementsByClassName("accordion");
-    for (var i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-        });
-    }
-</script>
 {% endblock %}
