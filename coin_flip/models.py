@@ -4,9 +4,10 @@ import random
 class C(BaseConstants):
     NAME_IN_URL = 'coin_flip'
     PLAYERS_PER_GROUP = None
+    NUM_PRACTICE_BLOCKS = 2
     NUM_BLOCKS = 10
     NUM_SUBROUNDS_PER_BLOCK = 3
-    NUM_ROUNDS = NUM_BLOCKS * NUM_SUBROUNDS_PER_BLOCK  # 10 blocks * 3 subrounds = 30 rounds
+    NUM_ROUNDS = (NUM_PRACTICE_BLOCKS + NUM_BLOCKS) * NUM_SUBROUNDS_PER_BLOCK
 
     COIN_PAIRS = [
         ('fair', 'biased'),
@@ -100,41 +101,43 @@ class Player(BasePlayer):
             self.chosen_coin_result = self.coin2_result
 
     def calculate_winnings(self):
-        # Calculate winnings for this subround
-        round_winnings = cu(0)
+        # Calculate winnings for this subround only if it is not a practice block
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        if block_number > C.NUM_PRACTICE_BLOCKS:
+            round_winnings = cu(0)
 
-        # Safely access the guessed outcomes using field_maybe_none()
-        fair_guess = self.field_maybe_none('fair_outcome')
-        biased_guess = self.field_maybe_none('biased_outcome')
-        very_biased_guess = self.field_maybe_none('very_biased_outcome')
+            # Safely access the guessed outcomes using field_maybe_none()
+            fair_guess = self.field_maybe_none('fair_outcome')
+            biased_guess = self.field_maybe_none('biased_outcome')
+            very_biased_guess = self.field_maybe_none('very_biased_outcome')
 
-        # Check if both guesses are correct
-        correct_guesses = 0
-        if self.coin1 == 'fair' and fair_guess is not None and fair_guess == self.coin1_result:
-            correct_guesses += 1
-        elif self.coin2 == 'fair' and fair_guess is not None and fair_guess == self.coin2_result:
-            correct_guesses += 1
+            # Check if both guesses are correct
+            correct_guesses = 0
+            if self.coin1 == 'fair' and fair_guess is not None and fair_guess == self.coin1_result:
+                correct_guesses += 1
+            elif self.coin2 == 'fair' and fair_guess is not None and fair_guess == self.coin2_result:
+                correct_guesses += 1
 
-        if self.coin1 == 'biased' and biased_guess is not None and biased_guess == self.coin1_result:
-            correct_guesses += 1
-        elif self.coin2 == 'biased' and biased_guess is not None and biased_guess == self.coin2_result:
-            correct_guesses += 1
+            if self.coin1 == 'biased' and biased_guess is not None and biased_guess == self.coin1_result:
+                correct_guesses += 1
+            elif self.coin2 == 'biased' and biased_guess is not None and biased_guess == self.coin2_result:
+                correct_guesses += 1
 
-        if self.coin1 == 'very biased' and very_biased_guess is not None and very_biased_guess == self.coin1_result:
-            correct_guesses += 1
-        elif self.coin2 == 'very biased' and very_biased_guess is not None and very_biased_guess == self.coin2_result:
-            correct_guesses += 1
+            if self.coin1 == 'very biased' and very_biased_guess is not None and very_biased_guess == self.coin1_result:
+                correct_guesses += 1
+            elif self.coin2 == 'very biased' and very_biased_guess is not None and very_biased_guess == self.coin2_result:
+                correct_guesses += 1
 
-        # Award 2 units if both guesses are correct, otherwise 0
-        if correct_guesses == 2:
-            round_winnings = cu(2)
+            # Award 2 units if both guesses are correct, otherwise 0
+            if correct_guesses == 2:
+                round_winnings = cu(2)
 
-        # Update total winnings
-        if self.round_number == 1:
-            self.total_winnings = round_winnings
-        else:
-            previous_total = self.in_round(self.round_number - 1).total_winnings
-            self.total_winnings = previous_total + round_winnings
+            # Update total winnings
+            if self.round_number == 1:
+                self.total_winnings = round_winnings
+            else:
+                previous_total = self.in_round(self.round_number - 1).total_winnings
+                self.total_winnings = previous_total + round_winnings
 
-        # Store the winnings for this round
-        self.payoff = round_winnings
+            # Store the winnings for this round
+            self.payoff = round_winnings
