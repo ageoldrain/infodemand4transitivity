@@ -88,4 +88,36 @@ class GuessOutcomes(Page):
 
     def vars_for_template(self):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
-        is_practice = block_number <= C.NUM_P
+        is_practice = block_number <= C.NUM_PRACTICE_BLOCKS
+        coins = self.participant.vars.get('coin_order', [])
+        return {
+            'coins': coins,
+            'block_number': block_number,
+            'subround_number': (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1,
+            'is_practice': is_practice
+        }
+
+    def before_next_page(self):
+        self.player.calculate_winnings()
+
+class Results(Page):
+    def is_displayed(self):
+        return self.round_number == C.NUM_ROUNDS
+
+    def vars_for_template(self):
+        total_winnings = self.player.total_winnings
+        return {
+            'total_winnings': total_winnings
+        }
+
+# Define the page sequence
+page_sequence = [
+    Introduction,
+    Introduction1point5,
+    Introduction1point6,
+    Introduction2,
+    RoundInfo,
+    CoinChoice,
+    GuessOutcomes,
+    Results
+]
