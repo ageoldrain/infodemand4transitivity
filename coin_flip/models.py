@@ -108,27 +108,26 @@ class Player(BasePlayer):
         biased_guess = self.field_maybe_none('biased_outcome')
         very_biased_guess = self.field_maybe_none('very_biased_outcome')
 
-        # Check guesses and actual results for each coin
-        if self.coin1 == 'fair' and fair_guess is not None:
-            if fair_guess == self.coin1_result:
-                round_winnings += cu(1)
-        elif self.coin2 == 'fair' and fair_guess is not None:
-            if fair_guess == self.coin2_result:
-                round_winnings += cu(1)
+        # Check if both guesses are correct
+        correct_guesses = 0
+        if self.coin1 == 'fair' and fair_guess is not None and fair_guess == self.coin1_result:
+            correct_guesses += 1
+        elif self.coin2 == 'fair' and fair_guess is not None and fair_guess == self.coin2_result:
+            correct_guesses += 1
 
-        if self.coin1 == 'biased' and biased_guess is not None:
-            if biased_guess == self.coin1_result:
-                round_winnings += cu(1)
-        elif self.coin2 == 'biased' and biased_guess is not None:
-            if biased_guess == self.coin2_result:
-                round_winnings += cu(1)
+        if self.coin1 == 'biased' and biased_guess is not None and biased_guess == self.coin1_result:
+            correct_guesses += 1
+        elif self.coin2 == 'biased' and biased_guess is not None and biased_guess == self.coin2_result:
+            correct_guesses += 1
 
-        if self.coin1 == 'very biased' and very_biased_guess is not None:
-            if very_biased_guess == self.coin1_result:
-                round_winnings += cu(1)
-        elif self.coin2 == 'very biased' and very_biased_guess is not None:
-            if very_biased_guess == self.coin2_result:
-                round_winnings += cu(1)
+        if self.coin1 == 'very biased' and very_biased_guess is not None and very_biased_guess == self.coin1_result:
+            correct_guesses += 1
+        elif self.coin2 == 'very biased' and very_biased_guess is not None and very_biased_guess == self.coin2_result:
+            correct_guesses += 1
+
+        # Award 2 units if both guesses are correct, otherwise 0
+        if correct_guesses == 2:
+            round_winnings = cu(2)
 
         # Update total winnings
         if self.round_number == 1:
