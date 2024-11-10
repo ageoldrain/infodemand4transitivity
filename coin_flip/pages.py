@@ -20,6 +20,14 @@ class Introduction2(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+class RoundInfo(Page):
+    template_name = 'coin_flip/RoundInfo.html'
+
+    def vars_for_template(self):
+        return {
+            'round_number': self.round_number
+        }
+
 class CoinChoice(Page):
     form_model = 'player'
     form_fields = ['coin_choice']
@@ -111,7 +119,6 @@ class GuessOutcomes(Page):
         # Remove manual clearing of fields; they are dynamically managed by get_form_fields
         self.player.calculate_winnings()
 
-
 class Results(Page):
     def is_displayed(self):
         return self.round_number == C.NUM_ROUNDS
@@ -128,6 +135,7 @@ page_sequence = [
     Introduction1point5,
     Introduction1point6,
     Introduction2,
+    RoundInfo,    # Added RoundInfo page before each round
     CoinChoice,
     RevealCoinOutcome,
     GuessOutcomes,
