@@ -34,7 +34,8 @@ class CoinChoice(Page):
         # Randomize coins and store the order
         random.shuffle(coins)
         self.participant.vars['coin_order'] = coins
-        
+        self.player.coin_position = f'{coins[0][0]}_{coins[1][0]}'
+
         # Get coin probabilities
         coin_probs = {
             coins[0][0]: C.COIN_PROBABILITIES[coins[0][0]],
@@ -69,6 +70,8 @@ class RevealCoinOutcome(Page):
         return {
             'chosen_coin': self.player.coin_choice.replace('_', ' ').title(),
             'chosen_coin_result': self.player.chosen_coin_result,
+            'coin1_result': self.player.coin1_result,
+            'coin2_result': self.player.coin2_result,
             'round_number': self.round_number,
             'block_number': block_number,
             'subround_number': subround_number,
@@ -89,6 +92,8 @@ class GuessOutcomes(Page):
             'coins': coins,
             'block_number': block_number,
             'subround_number': subround_number,
+            'coin1_result': self.player.coin1_result,
+            'coin2_result': self.player.coin2_result,
         }
 
     def before_next_page(self):
