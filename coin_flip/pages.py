@@ -79,7 +79,18 @@ class RevealCoinOutcome(Page):
 
 class GuessOutcomes(Page):
     form_model = 'player'
-    form_fields = ['fair_outcome', 'biased_outcome', 'very_biased_outcome']
+
+    def get_form_fields(self):
+        # Dynamically include only the fields for the coins in this subround
+        coins_in_subround = [self.player.coin1, self.player.coin2]
+        form_fields = []
+        if 'fair' in coins_in_subround:
+            form_fields.append('fair_outcome')
+        if 'biased' in coins_in_subround:
+            form_fields.append('biased_outcome')
+        if 'very biased' in coins_in_subround:
+            form_fields.append('very_biased_outcome')
+        return form_fields
 
     def vars_for_template(self):
         # Retrieve the coin order from the previous CoinChoice page
@@ -97,16 +108,9 @@ class GuessOutcomes(Page):
         }
 
     def before_next_page(self):
-        # Clear the fields that are not relevant in this subround
-        coins_in_subround = [self.player.coin1, self.player.coin2]
-        if 'fair' not in coins_in_subround:
-            self.player.fair_outcome = None
-        if 'biased' not in coins_in_subround:
-            self.player.biased_outcome = None
-        if 'very biased' not in coins_in_subround:
-            self.player.very_biased_outcome = None
-
+        # Remove manual clearing of fields; they are dynamically managed by get_form_fields
         self.player.calculate_winnings()
+
 
 class Results(Page):
     def is_displayed(self):
