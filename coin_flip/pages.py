@@ -23,10 +23,16 @@ class Introduction2(Page):
 class RoundInfo(Page):
     template_name = 'coin_flip/RoundInfo.html'
 
+    def is_displayed(self):
+        # Only display the RoundInfo page at the beginning of each block (every 3 subrounds)
+        return (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK == 0
+
     def vars_for_template(self):
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         return {
-            'round_number': self.round_number
+            'block_number': block_number
         }
+
 
 class CoinChoice(Page):
     form_model = 'player'
