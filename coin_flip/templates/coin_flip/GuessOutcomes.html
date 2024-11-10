@@ -19,19 +19,19 @@
                     <h3>{{ coin.1 }} Coin</h3>
 
                     {% if coin.0 == "fair" %}
-                        <input type="radio" class="form-check-input" name="fair_outcome" value="Heads" id="fair_heads" required>
+                        <input type="radio" class="btn-check" name="fair_outcome" value="Heads" id="fair_heads" required>
                         <label class="form-check-label" for="fair_heads">Heads</label>
-                        <input type="radio" class="form-check-input" name="fair_outcome" value="Tails" id="fair_tails" required>
+                        <input type="radio" class="btn-check" name="fair_outcome" value="Tails" id="fair_tails" required>
                         <label class="form-check-label" for="fair_tails">Tails</label>
                     {% elif coin.0 == "biased" %}
-                        <input type="radio" class="form-check-input" name="biased_outcome" value="Heads" id="biased_heads" required>
+                        <input type="radio" class="btn-check" name="biased_outcome" value="Heads" id="biased_heads" required>
                         <label class="form-check-label" for="biased_heads">Heads</label>
-                        <input type="radio" class="form-check-input" name="biased_outcome" value="Tails" id="biased_tails" required>
+                        <input type="radio" class="btn-check" name="biased_outcome" value="Tails" id="biased_tails" required>
                         <label class="form-check-label" for="biased_tails">Tails</label>
                     {% elif coin.0 == "very biased" %}
-                        <input type="radio" class="form-check-input" name="very_biased_outcome" value="Heads" id="very_biased_heads" required>
+                        <input type="radio" class="btn-check" name="very_biased_outcome" value="Heads" id="very_biased_heads" required>
                         <label class="form-check-label" for="very_biased_heads">Heads</label>
-                        <input type="radio" class="form-check-input" name="very_biased_outcome" value="Tails" id="very_biased_tails" required>
+                        <input type="radio" class="btn-check" name="very_biased_outcome" value="Tails" id="very_biased_tails" required>
                         <label class="form-check-label" for="very_biased_tails">Tails</label>
                     {% endif %}
                 </div>
