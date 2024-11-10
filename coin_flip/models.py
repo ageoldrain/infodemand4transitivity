@@ -28,6 +28,11 @@ class Subsession(BaseSubsession):
             block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
             subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK
 
+            # Adjust block_number for practice vs real blocks
+            if block_number > C.NUM_PRACTICE_BLOCKS:
+                real_block_number = block_number - C.NUM_PRACTICE_BLOCKS
+                player.participant.vars['real_block_number'] = real_block_number
+
             # At the start of each block (every 3 rounds), shuffle the coin pairs
             if subround_number == 0:
                 coin_pairs = C.COIN_PAIRS.copy()
@@ -42,6 +47,7 @@ class Subsession(BaseSubsession):
 
             # Store the position of the coins for the current subround
             player.coin_position = f'{coin_pair[0]}_{coin_pair[1]}'
+
 
 class Group(BaseGroup):
     pass
