@@ -24,15 +24,17 @@ class RoundInfo(Page):
     template_name = 'coin_flip/RoundInfo.html'
 
     def is_displayed(self):
-        # Display only before each round, excluding practice rounds
+        # Display only for real blocks (excluding practice blocks)
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
-        return (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK == 0
+        return block_number > C.NUM_PRACTICE_BLOCKS and (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK == 0
 
     def vars_for_template(self):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        real_block_number = block_number - C.NUM_PRACTICE_BLOCKS
         return {
-            'block_number': block_number
+            'block_number': real_block_number
         }
+
 
 class CoinChoice(Page):
     form_model = 'player'
