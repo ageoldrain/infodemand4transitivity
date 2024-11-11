@@ -74,6 +74,22 @@ class CoinChoice(Page):
     def before_next_page(self):
         self.player.flip_coins()
 
+class RevealCoinOutcome(Page):
+    template_name = 'coin_flip/RevealCoinOutcome.html'
+
+    def vars_for_template(self):
+        block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
+
+        return {
+            'chosen_coin': self.player.coin_choice.replace('_', ' ').title(),
+            'chosen_coin_result': self.player.chosen_coin_result,
+            'coin1_result': self.player.coin1_result,
+            'coin2_result': self.player.coin2_result,
+            'block_number': block_number,
+            'subround_number': subround_number,
+        }
+
 class GuessOutcomes(Page):
     form_model = 'player'
 
@@ -120,6 +136,7 @@ page_sequence = [
     Introduction2,
     RoundInfo,
     CoinChoice,
+    RevealCoinOutcome,
     GuessOutcomes,
     Results
 ]
