@@ -30,11 +30,10 @@ class RoundInfo(Page):
 
     def vars_for_template(self):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
-        real_block_number = block_number - C.NUM_PRACTICE_BLOCKS
+        real_block_number = block_number - C.NUM_PRACTICE_BLOCKS if block_number > C.NUM_PRACTICE_BLOCKS else None
         return {
             'block_number': real_block_number
         }
-
 
 class CoinChoice(Page):
     form_model = 'player'
@@ -46,8 +45,8 @@ class CoinChoice(Page):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         is_practice = block_number <= C.NUM_PRACTICE_BLOCKS
 
-        # Correct the block number for display if it's not a practice round
-        display_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else block_number
+        # Use real block number only for experimental rounds
+        real_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else None
 
         coins = [
             (self.player.coin1, self.player.coin1.replace('_', ' ').title()),
@@ -69,7 +68,7 @@ class CoinChoice(Page):
             'coins': coins,
             'prob_coin0': prob_coin0,
             'prob_coin1': prob_coin1,
-            'block_number': display_block_number,
+            'block_number': real_block_number if real_block_number is not None else block_number,
             'subround_number': (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1,
             'is_practice': is_practice
         }
@@ -83,6 +82,9 @@ class RevealCoinOutcome(Page):
 
     def vars_for_template(self):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        is_practice = block_number <= C.NUM_PRACTICE_BLOCKS
+        real_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else None
+
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
         # Use field_maybe_none() to safely access fields that may be None
@@ -96,10 +98,9 @@ class RevealCoinOutcome(Page):
             'chosen_coin_result': chosen_coin_result,
             'coin1_result': coin1_result,
             'coin2_result': coin2_result,
-            'block_number': block_number,
+            'block_number': real_block_number if real_block_number is not None else block_number,
             'subround_number': subround_number,
         }
-
 
 class GuessOutcomes(Page):
     form_model = 'player'
@@ -118,12 +119,12 @@ class GuessOutcomes(Page):
     def vars_for_template(self):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         is_practice = block_number <= C.NUM_PRACTICE_BLOCKS
-        display_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else block_number
+        real_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else None
 
         coins = self.participant.vars.get('coin_order', [])
         return {
             'coins': coins,
-            'block_number': display_block_number,
+            'block_number': real_block_number if real_block_number is not None else block_number,
             'subround_number': (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1,
             'is_practice': is_practice
         }
