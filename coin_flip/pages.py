@@ -78,7 +78,6 @@ class CoinChoice(Page):
         # Flip the coins before proceeding to RevealCoinOutcome
         self.player.flip_coins()
 
-
 class RevealCoinOutcome(Page):
     template_name = 'coin_flip/RevealCoinOutcome.html'
 
