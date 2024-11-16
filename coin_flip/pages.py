@@ -46,6 +46,9 @@ class CoinChoice(Page):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         is_practice = block_number <= C.NUM_PRACTICE_BLOCKS
 
+        # Correct the block number for display if it's not a practice round
+        display_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else block_number
+
         coins = [
             (self.player.coin1, self.player.coin1.replace('_', ' ').title()),
             (self.player.coin2, self.player.coin2.replace('_', ' ').title())
@@ -66,7 +69,7 @@ class CoinChoice(Page):
             'coins': coins,
             'prob_coin0': prob_coin0,
             'prob_coin1': prob_coin1,
-            'block_number': block_number,
+            'block_number': display_block_number,
             'subround_number': (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1,
             'is_practice': is_practice
         }
@@ -79,6 +82,9 @@ class RevealCoinOutcome(Page):
 
     def vars_for_template(self):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
+        is_practice = block_number <= C.NUM_PRACTICE_BLOCKS
+        display_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else block_number
+
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
         return {
@@ -86,8 +92,9 @@ class RevealCoinOutcome(Page):
             'chosen_coin_result': self.player.chosen_coin_result,
             'coin1_result': self.player.coin1_result,
             'coin2_result': self.player.coin2_result,
-            'block_number': block_number,
+            'block_number': display_block_number,
             'subround_number': subround_number,
+            'is_practice': is_practice
         }
 
 class GuessOutcomes(Page):
@@ -107,10 +114,12 @@ class GuessOutcomes(Page):
     def vars_for_template(self):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
         is_practice = block_number <= C.NUM_PRACTICE_BLOCKS
+        display_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else block_number
+
         coins = self.participant.vars.get('coin_order', [])
         return {
             'coins': coins,
-            'block_number': block_number,
+            'block_number': display_block_number,
             'subround_number': (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1,
             'is_practice': is_practice
         }
