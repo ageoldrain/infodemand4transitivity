@@ -79,20 +79,23 @@ class RevealCoinOutcome(Page):
 
     def vars_for_template(self):
         block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
-        is_practice = block_number <= C.NUM_PRACTICE_BLOCKS
-        display_block_number = block_number - C.NUM_PRACTICE_BLOCKS if not is_practice else block_number
-
         subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1
 
+        # Use field_maybe_none() to safely access fields that may be None
+        chosen_coin = self.player.field_maybe_none('coin_choice')
+        chosen_coin_result = self.player.field_maybe_none('chosen_coin_result')
+        coin1_result = self.player.field_maybe_none('coin1_result')
+        coin2_result = self.player.field_maybe_none('coin2_result')
+
         return {
-            'chosen_coin': self.player.coin_choice.replace('_', ' ').title(),
-            'chosen_coin_result': self.player.chosen_coin_result,
-            'coin1_result': self.player.coin1_result,
-            'coin2_result': self.player.coin2_result,
-            'block_number': display_block_number,
+            'chosen_coin': chosen_coin.replace('_', ' ').title() if chosen_coin else None,
+            'chosen_coin_result': chosen_coin_result,
+            'coin1_result': coin1_result,
+            'coin2_result': coin2_result,
+            'block_number': block_number,
             'subround_number': subround_number,
-            'is_practice': is_practice
         }
+
 
 class GuessOutcomes(Page):
     form_model = 'player'
