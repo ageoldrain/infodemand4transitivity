@@ -28,8 +28,10 @@ class Subsession(BaseSubsession):
             block_number = (self.round_number - 1) // C.NUM_SUBROUNDS_PER_BLOCK + 1
             subround_number = (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK
 
-            # Adjust block_number for practice vs real blocks
-            if block_number > C.NUM_PRACTICE_BLOCKS:
+            # Determine if it is a practice block or a real block
+            is_practice_block = block_number <= C.NUM_PRACTICE_BLOCKS
+
+            if not is_practice_block:
                 real_block_number = block_number - C.NUM_PRACTICE_BLOCKS
                 player.participant.vars['real_block_number'] = real_block_number
 
@@ -139,11 +141,8 @@ class Player(BasePlayer):
                 round_winnings = cu(2)
 
             # Update total winnings
-            if self.round_number == 1:
-                self.total_winnings = round_winnings
-            else:
-                previous_total = self.in_round(self.round_number - 1).total_winnings
-                self.total_winnings = previous_total + round_winnings
+            previous_total = self.in_round(self.round_number - 1).total_winnings if self.round_number > 1 else cu(0)
+            self.total_winnings = previous_total + round_winnings
 
             # Store the winnings for this round
             self.payoff = round_winnings
