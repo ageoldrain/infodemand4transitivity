@@ -74,9 +74,6 @@ class CoinChoice(Page):
             'is_practice': is_practice
         }
 
-    def before_next_page(self):
-        self.player.flip_coins()
-
 class RevealCoinOutcome(Page):
     template_name = 'coin_flip/RevealCoinOutcome.html'
 
