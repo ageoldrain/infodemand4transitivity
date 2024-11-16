@@ -7,12 +7,12 @@
         {% if is_practice %}
             <span style="color: red;">Practice Block {{ block_number }}</span>
         {% else %}
-            Round {{ block_number }}
+            Round {{ block_number|add:"-2" }}
         {% endif %}
     </h2>
 
     <h3 class="text-center my-4">
-        This is subround {{ subround_number }} of block {{ block_number }}.
+        This is subround {{ subround_number }} of block {{ block_number|add:"-2" if not is_practice else block_number }}.
     </h3>
     <h3 class="text-center my-4">
         Please guess the outcomes of the coins for this subround.
@@ -49,7 +49,6 @@
                 </div>
             {% endfor %}
         </div>
-
 
         {% if form.errors %}
             <div class="alert alert-danger text-center">
