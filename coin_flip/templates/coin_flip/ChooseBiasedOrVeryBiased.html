@@ -44,23 +44,19 @@
 
             <!-- Dynamically show the correct probability for each coin -->
             <p>
-                The {{ coins.0.1 }} coin has a probability of 
-                {% if coins.0.0 == 'biased' %}
+                The {{ coins.0.1 }} coin has a {% if coins.0.0 == 'biased' %}
                     {{ p_biased }}
                 {% elif coins.0.0 == 'very biased' %}
                     {{ p_very_biased }}
-                {% endif %}
-                heads.
+                {% endif %} chance of landing heads.
             </p>
 
             <p>
-                The {{ coins.1.1 }} coin has a probability of 
-                {% if coins.1.0 == 'biased' %}
+                The {{ coins.1.1 }} coin has a {% if coins.1.0 == 'biased' %}
                     {{ p_biased }}
                 {% elif coins.1.0 == 'very biased' %}
                     {{ p_very_biased }}
-                {% endif %}
-                heads.
+                {% endif %} chance of landing heads.
             </p>
 
             <p>If you guess correctly, you will receive the sum of $2. If not, you will receive $0. Your winnings will be revealed only at the end of the 10 rounds.</p>
