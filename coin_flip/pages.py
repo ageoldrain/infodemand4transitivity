@@ -64,7 +64,7 @@ class CoinChoice(Page):
         prob_coin0 = coin_probs[coins[0][0]]
         prob_coin1 = coin_probs[coins[1][0]]
 
-                # Convert decimal probabilities (e.g. 0.5) to integer percentages (e.g. 50)
+        # Convert decimal probabilities (e.g. 0.5) to integer percentages (e.g. 50)
         prob_coin0_percentage = int(prob_coin0 * 100)
         prob_coin1_percentage = int(prob_coin1 * 100)
 
@@ -72,6 +72,8 @@ class CoinChoice(Page):
             'coins': coins,
             'prob_coin0': prob_coin0,
             'prob_coin1': prob_coin1,
+            'prob_coin0_percentage': prob_coin0_percentage,
+            'prob_coin1_percentage': prob_coin1_percentage,
             'block_number': real_block_number if real_block_number is not None else block_number,
             'subround_number': (self.round_number - 1) % C.NUM_SUBROUNDS_PER_BLOCK + 1,
             'is_practice': is_practice
@@ -80,6 +82,7 @@ class CoinChoice(Page):
     def before_next_page(self):
         # Flip the coins before proceeding to RevealCoinOutcome
         self.player.flip_coins()
+
 
 class RevealCoinOutcome(Page):
     template_name = 'coin_flip/RevealCoinOutcome.html'
