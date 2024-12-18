@@ -64,6 +64,10 @@ class CoinChoice(Page):
         prob_coin0 = coin_probs[coins[0][0]]
         prob_coin1 = coin_probs[coins[1][0]]
 
+                # Convert decimal probabilities (e.g. 0.5) to integer percentages (e.g. 50)
+        prob_coin0_percentage = int(prob_coin0 * 100)
+        prob_coin1_percentage = int(prob_coin1 * 100)
+
         return {
             'coins': coins,
             'prob_coin0': prob_coin0,
